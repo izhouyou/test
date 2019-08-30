@@ -1,0 +1,122 @@
+server:
+  port: ${SERVER_PORT:5551}
+spring:
+ #redis 配置
+  redis:
+    sentinel:
+      #哨兵节点IP:Port
+      nodes: 172.16.1.41:16379 ,172.16.1.42:16379
+      #主redis名称
+      master: mymaster
+#数据源配置
+  datasource:
+    name: database
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid相关配置
+    druid:
+      #监控统计拦截的filters
+      #filters: stat
+      driver-class-name: com.mysql.jdbc.Driver
+      #基本属性
+      url: jdbc:mysql://${MYSQL_IP:172.16.1.21}:${MYSQL_PORT:3306}/${MYSQL_TABLE:nbms_order}?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+      username: ${MYSQL_USER_NAME:root}
+      password: ${MYSQL_PASSWORD:root}      #配置初始化大小/最小/最大
+      initial-size: 20
+      min-idle: 100
+      max-active: 1000
+      #获取连接等待超时时间
+      max-wait: 30000
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      #一个连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml,classpath*:mapper/*/*.xml
+  type-aliases-package: com.camelot.order.domain
+
+#pagehelper 分页插件配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  returnPageInfo: check
+##动态刷新配置
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: bus-refresh
+#  security:
+#    enabled: false
+
+#ribbon:
+#  eureka:
+#    enabled: ${RIBBON_EUREKA_ENABLE:true}
+#  #请求处理的超时时间
+#  ReadTimeout: ${RIBBON_READ_TIMEOUT:120000}
+#  #请求连接的超时时间
+#  ConnectTimeout: ${RIBBON_CONNECT_TIMEOUT:30000}
+
+
+
+feign:
+  httpclient:
+    enabled: false
+    max-connections: 200 # 默认值
+    max-connections-per-route: 50 # 默认值
+  okhttp:
+    enabled: true
+
+
+hystrix:
+  #hystrix 熔断机制
+  enabled: ${FRIGN_HYSTRIX_ENABLE:true}
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+  threadpool:
+    default:
+      coreSize: 10
+      maximumSize: 10
+      maxQueueSize: -1 # 如该值为-1，那么使用的是SynchronousQueue，否则使用的是LinkedBlockingQueue。注意，修改MQ的类型需要重启。例如从-1修改为100，需要重启，因为使用的Queue类型发生了变化
+
+#注册中心配置============================================================
+eureka:
+  instance:
+    #ip配置
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:172.16.1.22}
+#    instance-id: ${spring.application.name}:${server.port}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+  client:
+    #开启健康检查
+#    healthcheck:
+#      enabled: ${CLENT_HEALTHCHECK:true}
+    #心跳连接池 默认2
+#    heartbeat-executor-thread-pool-size: ${HEARTBEAT_EXECUTOR_POOL_SIZE:2}
+    #服务注册地址
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_LIST:http://172.16.1.21:2221//eureka/}
+
+logback:
+  path: /data/logs
+  serviceName: order-sdk
+logging:
+  config: classpath:logback/logback-spring.xml
+
+genid: http://172.16.1.22:10010/genid
+# FMS老代新活动编号
+fms.activity.number: SPS6661908010001

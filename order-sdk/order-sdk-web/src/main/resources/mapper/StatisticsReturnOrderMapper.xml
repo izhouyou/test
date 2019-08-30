@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.StatisticsReturnOrderDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="statisticsReturnOrderDomain" type="com.camelot.order.domain.StatisticsReturnOrderDomain">
+			<result property="statisticsReturnId" column="statistics_return_id" />
+			<result property="storeId" column="store_id" />
+			<result property="storeName" column="store_name" />
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="returnAmount" column="return_amount" />
+			<result property="returnOrderId" column="return_order_id" />
+			<result property="returnDate" column="return_date" />
+			<result property="returnOrderAmount" column="return_order_amount" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+			<result property="firstOrgId" column="first_org_id" />
+			<result property="secondOrgId" column="second_org_id" />
+			<result property="thirdOrgId" column="third_org_id" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_statistics_return_order
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 statistics_return_id, 
+			 store_id, 
+			 store_name, 
+			 sales_order_id, 
+			 return_amount, 
+			 return_order_id, 
+			 return_date, 
+			 return_order_amount, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date,
+			 first_org_id,
+			 second_org_id,
+			 third_org_id 
+			FROM t_statistics_return_order
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "statisticsReturnId != null ">
+		<![CDATA[ and statistics_return_id  = #{statisticsReturnId} ]]>
+	</if>
+		<if test = "storeId != null ">
+		<![CDATA[ and store_id  = #{storeId} ]]>
+	</if>
+		<if test = "storeName != null and storeName != '' ">
+		<![CDATA[ and store_name  = #{storeName} ]]>
+	</if>
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "returnAmount != null ">
+		<![CDATA[ and return_amount  = #{returnAmount} ]]>
+	</if>
+		<if test = "returnOrderId != null ">
+		<![CDATA[ and return_order_id  = #{returnOrderId} ]]>
+	</if>
+		<if test = "returnDate != null ">
+		<![CDATA[ and return_date  = #{returnDate} ]]>
+	</if>
+		<if test = "returnOrderAmount != null ">
+		<![CDATA[ and return_order_amount  = #{returnOrderAmount} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and create_date  = #{createDate} ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and modify_date  = #{modifyDate} ]]>
+	</if>
+		<if test = "firstOrgId != null ">
+		<![CDATA[ and first_org_id  = #{firstOrgId} ]]>
+	</if>
+		<if test = "secondOrgId != null ">
+		<![CDATA[ and second_org_id  = #{secondOrgId} ]]>
+	</if>
+		<if test = "thirdOrgId != null ">
+		<![CDATA[ and third_org_id  = #{thirdOrgId} ]]>
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="statisticsReturnOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="statisticsReturnOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="statisticsReturnOrderDomain" >
+		select * from t_statistics_return_order
+		where statistics_return_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.StatisticsReturnOrderDomain">
+		insert into t_statistics_return_order(
+				statistics_return_id,
+				store_id,
+				store_name,
+				sales_order_id,
+				return_amount,
+				return_order_id,
+				return_date,
+				return_order_amount,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date,
+				first_org_id,
+				second_org_id,
+				third_org_id 
+		)values(
+				#{statisticsReturnId},
+				#{storeId},
+				#{storeName},
+				#{salesOrderId},
+				#{returnAmount},
+				#{returnOrderId},
+				#{returnDate},
+				#{returnOrderAmount},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate},
+				#{firstOrgId},
+				#{secondOrgId},
+				#{thirdOrgId}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.StatisticsReturnOrderDomain">
+		update t_statistics_return_order
+			<set>
+				<if test = "statisticsReturnId != null ">
+					statistics_return_id = #{statisticsReturnId},
+				</if>
+				<if test = "storeId != null ">
+					store_id = #{storeId},
+				</if>
+				<if test = "storeName != null ">
+					store_name = #{storeName},
+				</if>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "returnAmount != null ">
+					return_amount = #{returnAmount},
+				</if>
+				<if test = "returnOrderId != null ">
+					return_order_id = #{returnOrderId},
+				</if>
+				<if test = "returnDate != null ">
+					return_date = #{returnDate},
+				</if>
+				<if test = "returnOrderAmount != null ">
+					return_order_amount = #{returnOrderAmount},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate}
+				</if>
+				<if test = "firstOrgId != null ">
+					first_org_id = #{firstOrgId}
+				</if>
+				<if test = "secondOrgId != null ">
+					second_org_id = #{secondOrgId}
+				</if>
+				<if test = "thirdOrgId != null ">
+					third_org_id = #{thirdOrgId}
+				</if>
+			</set>
+		where statistics_return_id= #{statisticsReturnId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_statistics_return_order
+		<if test = "id != null ">
+			where statistics_return_id= #{id}
+		</if>
+		<if test = "id == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<!-- 根据起止时间查询 -->
+	<select id="queryStatisticsResult" resultType="java.util.HashMap">
+		select 
+			SUM(return_order_amount) 'returnOrderAmount'
+		from t_statistics_return_order 
+		where 1=1
+		<if test = "userId != null and userId != ''">
+			<![CDATA[ and create_user_id = #{userId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(return_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+	</select>
+	
+</mapper>

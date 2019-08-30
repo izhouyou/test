@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.NewSalesOrderLogDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="newSalesOrderLogDomain" type="com.camelot.order.domain.NewSalesOrderLogDomain">
+			<result property="salesOrderLogId" column="sales_order_log_id" />
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="salesOrderNumber" column="sales_order_number" />
+			<result property="returnOrderId" column="return_order_id" />
+			<result property="returnOrderNumber" column="return_order_number" />
+			<result property="operatorId" column="operator_id" />
+			<result property="operatorNumber" column="operator_number" />
+			<result property="operatorName" column="operator_name" />
+			<result property="operatorPhone" column="operator_phone" />
+			<result property="salesOrderStatusId" column="sales_order_status_id" />
+			<result property="salesOrderStatusNumber" column="sales_order_status_number" />
+			<result property="salesOrderStatusName" column="sales_order_status_name" />
+			<result property="paymentStatusId" column="payment_status_id" />
+			<result property="paymentStatusNumber" column="payment_status_number" />
+			<result property="paymentStatusName" column="payment_status_name" />
+			<result property="returnStatusId" column="return_status_id" />
+			<result property="returnStatusNumber" column="return_status_number" />
+			<result property="returnStatusName" column="return_status_name" />
+			<result property="operationTime" column="operation_time" />
+			<result property="delFlg" column="del_flg" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_new_sales_order_log
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 sales_order_log_id, 
+			 sales_order_id, 
+			 sales_order_number, 
+			 return_order_id, 
+			 return_order_number, 
+			 operator_id, 
+			 operator_number, 
+			 operator_name, 
+			 operator_phone, 
+			 sales_order_status_id, 
+			 sales_order_status_number, 
+			 sales_order_status_name, 
+			 payment_status_id, 
+			 payment_status_number, 
+			 payment_status_name, 
+			 return_status_id, 
+			 return_status_number, 
+			 return_status_name, 
+			 operation_time, 
+			 del_flg 
+			FROM t_new_sales_order_log
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "salesOrderLogId != null ">
+		<![CDATA[ and sales_order_log_id  = #{salesOrderLogId} ]]>
+	</if>
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "salesOrderNumber != null ">
+		<![CDATA[ and sales_order_number  = #{salesOrderNumber} ]]>
+	</if>
+		<if test = "returnOrderId != null ">
+		<![CDATA[ and return_order_id  = #{returnOrderId} ]]>
+	</if>
+		<if test = "returnOrderNumber != null ">
+		<![CDATA[ and return_order_number  = #{returnOrderNumber} ]]>
+	</if>
+		<if test = "operatorId != null ">
+		<![CDATA[ and operator_id  = #{operatorId} ]]>
+	</if>
+		<if test = "operatorNumber != null ">
+		<![CDATA[ and operator_number  = #{operatorNumber} ]]>
+	</if>
+		<if test = "operatorName != null ">
+		<![CDATA[ and operator_name  = #{operatorName} ]]>
+	</if>
+		<if test = "operatorPhone != null ">
+		<![CDATA[ and operator_phone  = #{operatorPhone} ]]>
+	</if>
+		<if test = "salesOrderStatusId != null ">
+		<![CDATA[ and sales_order_status_id  = #{salesOrderStatusId} ]]>
+	</if>
+		<if test = "salesOrderStatusNumber != null ">
+		<![CDATA[ and sales_order_status_number  = #{salesOrderStatusNumber} ]]>
+	</if>
+		<if test = "salesOrderStatusName != null ">
+		<![CDATA[ and sales_order_status_name  = #{salesOrderStatusName} ]]>
+	</if>
+		<if test = "paymentStatusId != null ">
+		<![CDATA[ and payment_status_id  = #{paymentStatusId} ]]>
+	</if>
+		<if test = "paymentStatusNumber != null ">
+		<![CDATA[ and payment_status_number  = #{paymentStatusNumber} ]]>
+	</if>
+		<if test = "paymentStatusName != null ">
+		<![CDATA[ and payment_status_name  = #{paymentStatusName} ]]>
+	</if>
+		<if test = "returnStatusId != null ">
+		<![CDATA[ and return_status_id  = #{returnStatusId} ]]>
+	</if>
+		<if test = "returnStatusNumber != null ">
+		<![CDATA[ and return_status_number  = #{returnStatusNumber} ]]>
+	</if>
+		<if test = "returnStatusName != null ">
+		<![CDATA[ and return_status_name  = #{returnStatusName} ]]>
+	</if>
+		<if test = "operationTime != null ">
+		<![CDATA[ and operation_time  = #{operationTime} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="newSalesOrderLogDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="newSalesOrderLogDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="newSalesOrderLogDomain" >
+		select * from t_new_sales_order_log
+		where sales_order_log_id= #{salesOrderLogId}
+	</select>
+
+
+	<insert id="add">
+		insert into t_new_sales_order_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="salesOrderLogId != null" >
+				sales_order_log_id,
+			</if>
+			<if test="salesOrderId != null" >
+				sales_order_id,
+			</if>
+			<if test="salesOrderNumber != null" >
+				sales_order_number,
+			</if>
+			<if test="returnOrderId != null" >
+				return_order_id,
+			</if>
+			<if test="returnOrderNumber != null" >
+				return_order_number,
+			</if>
+			<if test="operatorId != null" >
+				operator_id,
+			</if>
+			<if test="operatorNumber != null" >
+				operator_number,
+			</if>
+			<if test="operatorName != null" >
+				operator_name,
+			</if>
+			<if test="operatorPhone != null" >
+				operator_phone,
+			</if>
+			<if test="salesOrderStatusId != null" >
+				sales_order_status_id,
+			</if>
+			<if test="salesOrderStatusNumber != null" >
+				sales_order_status_number,
+			</if>
+			<if test="salesOrderStatusName != null" >
+				sales_order_status_name,
+			</if>
+			<if test="paymentStatusId != null" >
+				payment_status_id,
+			</if>
+			<if test="paymentStatusNumber != null" >
+				payment_status_number,
+			</if>
+			<if test="paymentStatusName != null" >
+				payment_status_name,
+			</if>
+			<if test="returnStatusId != null" >
+				return_status_id,
+			</if>
+			<if test="returnStatusNumber != null" >
+				return_status_number,
+			</if>
+			<if test="returnStatusName != null" >
+				return_status_name,
+			</if>
+			<if test="operationTime != null" >
+				operation_time,
+			</if>
+			<if test="delFlg != null" >
+				del_flg,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="salesOrderLogId != null" >
+				#{salesOrderLogId,jdbcType=BIGINT},
+			</if>
+			<if test="salesOrderId != null" >
+				#{salesOrderId,jdbcType=INTEGER},
+			</if>
+			<if test="salesOrderNumber != null" >
+				#{salesOrderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnOrderId != null" >
+				#{returnOrderId,jdbcType=BIGINT},
+			</if>
+			<if test="returnOrderNumber != null" >
+				#{returnOrderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorId != null" >
+				#{operatorId,jdbcType=INTEGER},
+			</if>
+			<if test="operatorNumber != null" >
+				#{operatorNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorName != null" >
+				#{operatorName,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorPhone != null" >
+				#{operatorPhone,jdbcType=CHAR},
+			</if>
+			<if test="salesOrderStatusId != null" >
+				#{salesOrderStatusId,jdbcType=INTEGER},
+			</if>
+			<if test="salesOrderStatusNumber != null" >
+				#{salesOrderStatusNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="salesOrderStatusName != null" >
+				#{salesOrderStatusName,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentStatusId != null" >
+				#{paymentStatusId,jdbcType=INTEGER},
+			</if>
+			<if test="paymentStatusNumber != null" >
+				#{paymentStatusNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentStatusName != null" >
+				#{paymentStatusName,jdbcType=VARCHAR},
+			</if>
+			<if test="returnStatusId != null" >
+				#{returnStatusId,jdbcType=INTEGER},
+			</if>
+			<if test="returnStatusNumber != null" >
+				#{returnStatusNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnStatusName != null" >
+				#{returnStatusName,jdbcType=VARCHAR},
+			</if>
+			<if test="operationTime != null" >
+				#{operationTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlg != null" >
+				#{delFlg,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 新增 -->
+<!--	<insert id="add"  parameterType="com.camelot.order.domain.NewSalesOrderLogDomain">-->
+<!--		insert into t_new_sales_order_log(-->
+<!--				sales_order_log_id,-->
+<!--				sales_order_id,-->
+<!--				sales_order_number,-->
+<!--				return_order_id,-->
+<!--				return_order_number,-->
+<!--				operator_id,-->
+<!--				operator_number,-->
+<!--				operator_name,-->
+<!--				operator_phone,-->
+<!--				sales_order_status_id,-->
+<!--				sales_order_status_number,-->
+<!--				sales_order_status_name,-->
+<!--				payment_status_id,-->
+<!--				payment_status_number,-->
+<!--				payment_status_name,-->
+<!--				return_status_id,-->
+<!--				return_status_number,-->
+<!--				return_status_name,-->
+<!--				operation_time,-->
+<!--				del_flg-->
+<!--		)values(-->
+<!--				#{salesOrderLogId},-->
+<!--				#{salesOrderId},-->
+<!--				#{salesOrderNumber},-->
+<!--				#{returnOrderId},-->
+<!--				#{returnOrderNumber},-->
+<!--				#{operatorId},-->
+<!--				#{operatorNumber},-->
+<!--				#{operatorName},-->
+<!--				#{operatorPhone},-->
+<!--				#{salesOrderStatusId},-->
+<!--				#{salesOrderStatusNumber},-->
+<!--				#{salesOrderStatusName},-->
+<!--				#{paymentStatusId},-->
+<!--				#{paymentStatusNumber},-->
+<!--				#{paymentStatusName},-->
+<!--				#{returnStatusId},-->
+<!--				#{returnStatusNumber},-->
+<!--				#{returnStatusName},-->
+<!--				#{operationTime},-->
+<!--				#{delFlg}-->
+<!--		)-->
+<!--	</insert>-->
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.NewSalesOrderLogDomain">
+		update t_new_sales_order_log
+			<set>
+				<if test = "salesOrderLogId != null ">
+					sales_order_log_id = #{salesOrderLogId},
+				</if>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "salesOrderNumber != null ">
+					sales_order_number = #{salesOrderNumber},
+				</if>
+				<if test = "returnOrderId != null ">
+					return_order_id = #{returnOrderId},
+				</if>
+				<if test = "returnOrderNumber != null ">
+					return_order_number = #{returnOrderNumber},
+				</if>
+				<if test = "operatorId != null ">
+					operator_id = #{operatorId},
+				</if>
+				<if test = "operatorNumber != null ">
+					operator_number = #{operatorNumber},
+				</if>
+				<if test = "operatorName != null ">
+					operator_name = #{operatorName},
+				</if>
+				<if test = "operatorPhone != null ">
+					operator_phone = #{operatorPhone},
+				</if>
+				<if test = "salesOrderStatusId != null ">
+					sales_order_status_id = #{salesOrderStatusId},
+				</if>
+				<if test = "salesOrderStatusNumber != null ">
+					sales_order_status_number = #{salesOrderStatusNumber},
+				</if>
+				<if test = "salesOrderStatusName != null ">
+					sales_order_status_name = #{salesOrderStatusName},
+				</if>
+				<if test = "paymentStatusId != null ">
+					payment_status_id = #{paymentStatusId},
+				</if>
+				<if test = "paymentStatusNumber != null ">
+					payment_status_number = #{paymentStatusNumber},
+				</if>
+				<if test = "paymentStatusName != null ">
+					payment_status_name = #{paymentStatusName},
+				</if>
+				<if test = "returnStatusId != null ">
+					return_status_id = #{returnStatusId},
+				</if>
+				<if test = "returnStatusNumber != null ">
+					return_status_number = #{returnStatusNumber},
+				</if>
+				<if test = "returnStatusName != null ">
+					return_status_name = #{returnStatusName},
+				</if>
+				<if test = "operationTime != null ">
+					operation_time = #{operationTime},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg}
+				</if>
+			</set>
+		where sales_order_log_id= #{salesOrderLogId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_new_sales_order_log
+		<if test = "salesOrderLogId != null ">
+			where sales_order_log_id= #{salesOrderLogId}
+		</if>
+		<if test = "salesOrderLogId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+</mapper>

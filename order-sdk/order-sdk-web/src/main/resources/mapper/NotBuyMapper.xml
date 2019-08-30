@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.NotBuyDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="notBuyDomain" type="com.camelot.order.domain.NotBuyDomain">
+			<result property="notBuyId" column="not_buy_id" />
+			<result property="customerId" column="customer_id" />
+			<result property="intentionVehicle" column="intention_vehicle" />
+			<result property="storeId" column="store_id" />
+			<result property="notBuyReason" column="not_buy_reason" />
+			<result property="delFlg" column="del_flg" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_not_buy
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 not_buy_id, 
+			 customer_id, 
+			 intention_vehicle, 
+			 store_id, 
+			 not_buy_reason, 
+			 del_flg, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date 
+			FROM t_not_buy
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "notBuyId != null ">
+		<![CDATA[ and not_buy_id  = #{notBuyId} ]]>
+	</if>
+		<if test = "customerId != null ">
+		<![CDATA[ and customer_id  = #{customerId} ]]>
+	</if>
+		<if test = "intentionVehicle != null and intentionVehicle != 0 ">
+		<![CDATA[ and intention_vehicle  = #{intentionVehicle} ]]>
+	</if>
+		<if test = "storeId != null ">
+		<![CDATA[ and store_id  = #{storeId} ]]>
+	</if>
+		<if test = "notBuyReason != null ">
+		<![CDATA[ and not_buy_reason  = #{notBuyReason} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and create_date  = #{createDate} ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and modify_date  = #{modifyDate} ]]>
+	</if>
+		<if test="beginSearchDate != null ">
+		<![CDATA[ AND create_date >= #{beginSearchDate} ]]>
+	</if>
+		<if test="endSearchDate != null ">
+		<![CDATA[ AND create_date <= date_sub(#{endSearchDate},interval -1 day) ]]>
+	</if>
+	<if test="storeIdList != null and storeIdList.size()>0">
+		AND store_id in
+		<foreach collection="storeIdList" index="index" item="item" open="(" separator="," close=")">
+   	        #{item}       
+   		</foreach> 
+	</if>
+	</sql>
+	
+	<sql id="order">
+		ORDER BY modify_date DESC
+	</sql>
+
+	<select id="queryList" resultMap="notBuyDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+		<include refid="order" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="notBuyDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="notBuyDomain" >
+		select * from t_not_buy
+		where not_buy_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.NotBuyDomain">
+		insert into t_not_buy(
+				not_buy_id,
+				customer_id,
+				intention_vehicle,
+				store_id,
+				not_buy_reason,
+				del_flg,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date
+		)values(
+				#{notBuyId},
+				#{customerId},
+				#{intentionVehicle},
+				#{storeId},
+				#{notBuyReason},
+				#{delFlg},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.NotBuyDomain">
+		update t_not_buy
+			<set>
+				<if test = "notBuyId != null ">
+					not_buy_id = #{notBuyId},
+				</if>
+				<if test = "customerId != null ">
+					customer_id = #{customerId},
+				</if>
+				<if test = "intentionVehicle != null ">
+					intention_vehicle = #{intentionVehicle},
+				</if>
+				<if test = "storeId != null ">
+					store_id = #{storeId},
+				</if>
+				<if test = "notBuyReason != null ">
+					not_buy_reason = #{notBuyReason},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate}
+				</if>
+			</set>
+		where not_buy_id= #{notBuyId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_not_buy
+		<if test = "notBuyId != null ">
+			where not_buy_id= #{id}
+		</if>
+		<if test = "notBuyId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<!-- 根据门店ids/起止时间,查询某门店未购买数据 -->
+	<select id="queryNotBuy" resultType="java.util.HashMap" >
+		select 
+			COUNT(1) 'notBuyAmount',
+			 store_id 'storeId'
+		from t_not_buy 
+		where 1=1
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id  IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		GROUP BY store_id
+	</select>
+	<!-- 根据门店id/起止时间,查询未购买数据 -->
+	<select id="queryCustomerIdSet" resultType="java.util.HashMap" >
+		select 
+			COUNT(1) 'amount',
+			customer_id 'name'
+		from t_not_buy 
+		where customer_id is not null and customer_id != '' 
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeId != null and storeId != ''">
+			and store_id = #{storeId}
+		</if>
+		GROUP BY customer_id
+	</select>
+	<!-- 根据门店id/起止时间,查询未购买原因的数量 -->
+	<select id="queryNotBuyCause" resultType="java.util.HashMap" >
+		select 
+			COUNT(1) 'amount',
+			not_buy_reason 'name'
+		from t_not_buy 
+		where 1=1
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeId != null and storeId != ''">
+			and store_id = #{storeId}
+		</if>
+		GROUP BY not_buy_reason
+	</select>
+	
+</mapper>

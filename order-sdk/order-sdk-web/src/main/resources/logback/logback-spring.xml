@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <springProperty scope="context" name="serviceName" source="logback.serviceName"/>
+    <springProperty scope="context" name="path" source="logback.path"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} %-5level %C{1} [%M:%L] [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--中控台日志输出-->
+    <root level="debug">
+        <appender-ref ref="console"/>
+    </root>
+
+    <!--服务日志-->
+    <appender name="service_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${path}/logback-${serviceName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${path}/service/logback-${serviceName}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{ISO8601} %-5level %C{1} [%M:%L] [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--spring框架日志-->
+    <appender name="spring_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${path}/logback-springFrameWork.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${path}/spring/logback-springFrameWork.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{ISO8601} %-5level %C{1} [%M:%L] [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--操作日志-->
+    <appender name="oper_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${path}/interface-${serviceName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${path}/service/interface-${serviceName}.%d{yyyy-MMdd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+               <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--服务日志，com.camelot包下的日志输出到服务日志文件中-->
+    <logger name="com.camelot" level="DEBUG"  additivity="false">
+        <appender-ref ref="service_file"></appender-ref>
+    </logger>
+    <!--操作日志记录-->
+    <logger name="oper_file">
+        <appender-ref ref="oper_file"></appender-ref>
+    </logger>
+    <!--spring框架日志，com.springframework框架中的日志输出到spring框架日志文件中-->
+    <logger name="org.springframework" level="info"  additivity="false">
+        <appender-ref ref="spring_file"></appender-ref>
+    </logger>
+</configuration>

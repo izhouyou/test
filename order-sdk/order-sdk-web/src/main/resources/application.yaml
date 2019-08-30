@@ -1,0 +1,6 @@
+spring:
+  application:
+    name:  order-sdk #解决 多实例相同端口的话，就只刷新一个端口，用index区分下
+  #master环境
+  profiles:
+      active: ${PROFILE:test}

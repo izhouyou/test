@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.ReturnOrderDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="returnOrderDomain" type="com.camelot.order.domain.ReturnOrderDomain">
+			<result property="returnOrderId" column="return_order_id" />
+			<result property="returnOrderNumber" column="return_order_number" />
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="returnOrderAmount" column="return_order_amount" />
+			<result property="returnOrderState" column="return_order_state" />
+			<result property="returnReason" column="return_reason" />
+			<result property="delFlg" column="del_flg" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_return_order
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 return_order_id, 
+			 return_order_number, 
+			 sales_order_id, 
+			 return_order_amount, 
+			 return_order_state, 
+			 return_reason, 
+			 del_flg, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date 
+			FROM t_return_order
+		]]>
+	</sql>
+	
+	<sql id="order">
+		ORDER BY create_date DESC
+	</sql>
+	
+	<sql id="where">
+		where 1=1
+		<if test = "returnOrderId != null ">
+		<![CDATA[ and return_order_id  = #{returnOrderId} ]]>
+	</if>
+		<if test = "returnOrderNumber != null and returnOrderNumber != '' ">
+		<![CDATA[ and return_order_number  = #{returnOrderNumber} ]]>
+	</if>
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "returnOrderAmount != null ">
+		<![CDATA[ and return_order_amount  = #{returnOrderAmount} ]]>
+	</if>
+		<if test = "returnOrderState != null and returnOrderState != 0">
+		<![CDATA[ and return_order_state  = #{returnOrderState} ]]>
+	</if>
+		<if test = "returnReason != null and returnReason !=0">
+		<![CDATA[ and return_reason  = #{returnReason} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and create_date  = #{createDate} ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and modify_date  = #{modifyDate} ]]>
+	</if>
+		<if test="beginSearchDate != null ">
+		<![CDATA[ AND create_date >= #{beginSearchDate} ]]>
+	</if>
+		<if test="endSearchDate != null ">
+		<![CDATA[ AND create_date <= date_sub(#{endSearchDate},interval -1 day) ]]>
+	</if>
+		<if test="salesOrderIdList != null and salesOrderIdList.size()>0">
+			AND sales_order_id in
+			<foreach collection="salesOrderIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="returnOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+		<include refid="order" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="returnOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="returnOrderDomain" >
+		select * from t_return_order
+		where return_order_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.ReturnOrderDomain">
+		insert into t_return_order(
+				return_order_id,
+				return_order_number,
+				sales_order_id,
+				return_order_amount,
+				return_order_state,
+				return_reason,
+				del_flg,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date
+		)values(
+				#{returnOrderId},
+				#{returnOrderNumber},
+				#{salesOrderId},
+				#{returnOrderAmount},
+				#{returnOrderState},
+				#{returnReason},
+				#{delFlg},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.ReturnOrderDomain">
+		update t_return_order
+			<set>
+				<if test = "returnOrderId != null ">
+					return_order_id = #{returnOrderId},
+				</if>
+				<if test = "returnOrderNumber != null ">
+					return_order_number = #{returnOrderNumber},
+				</if>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "returnOrderAmount != null ">
+					return_order_amount = #{returnOrderAmount},
+				</if>
+				<if test = "returnOrderState != null ">
+					return_order_state = #{returnOrderState},
+				</if>
+				<if test = "returnReason != null ">
+					return_reason = #{returnReason},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate}
+				</if>
+			</set>
+		where return_order_id= #{returnOrderId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_return_order
+		<if test = "returnOrderId != null ">
+			where return_order_id= #{id}
+		</if>
+		<if test = "returnOrderId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<select id="getMaxReturnOrderNumber" resultType="java.lang.String">
+		select MAX(RIGHT(return_order_number,5)) from t_return_order
+		where create_date like CONCAT(#{nowDate}, '%')
+	</select>
+	
+	<select id="queryListByDate" resultMap="returnOrderDomain">
+		<include refid="select_all"/>
+		where 1=1
+		<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
+			<![CDATA[ and create_date BETWEEN #{startDate} and #{endDate} ]]>
+		</if>
+	</select>
+	
+</mapper>

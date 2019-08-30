@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.StatisticsTotalDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="statisticsTotalDomain" type="com.camelot.order.domain.StatisticsTotalDomain">
+			<result property="statisticsId" column="statistics_id" />
+			<result property="storeId" column="store_id" />
+			<result property="storeName" column="store_name" />
+			<result property="firstOrgId" column="first_org_id" />
+			<result property="secondOrgId" column="second_org_id" />
+			<result property="thirdOrgId" column="third_org_id" />
+			<result property="firstOrgName" column="first_org_name" />
+			<result property="secondOrgName" column="second_org_name" />
+			<result property="thirdOrgName" column="third_org_name" />
+			<result property="partnerName" column="partner_name" />
+			<result property="franchiseeName" column="franchisee_name" />
+			<result property="partnerId" column="partner_id" />
+			<result property="franchiseeId" column="franchisee_id" />
+			<result property="goodsFirstCategoryId" column="goods_first_category_id" />
+			<result property="goodsSecondCategoryId" column="goods_second_category_id" />
+			<result property="goodsThirdCategoryId" column="goods_third_category_id" />
+			<result property="goodsFirstCategoryName" column="goods_first_category_name" />
+			<result property="goodsSecondCategoryName" column="goods_second_category_name" />
+			<result property="goodsThirdCategoryName" column="goods_third_category_name" />
+			<result property="goodsName" column="goods_name" />
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="orderCreateDate" column="order_create_date" />
+			<result property="orderUpdateDate" column="order_update_date" />
+			<result property="retailPrice" column="retail_price" />
+			<result property="actualPrice" column="actual_price" />
+			<result property="orderAmount" column="order_amount" />
+			<result property="customerSourceId" column="customer_source_id" />
+			<result property="customerSource" column="customer_source" />
+			<result property="salesOrderStatus" column="sales_order_status" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+			<result property="totalPrice" column="total_price" />
+			<result property="goodsAttributeId" column="goods_attribute_id" />
+			<result property="goodsAttributeName" column="goods_attribute_name" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_statistics_total
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 statistics_id, 
+			 store_id, 
+			 store_name, 
+			 first_org_id, 
+			 second_org_id, 
+			 third_org_id, 
+			 first_org_name, 
+			 second_org_name, 
+			 third_org_name, 
+			 partner_name, 
+			 franchisee_name, 
+			 partner_id, 
+			 franchisee_id, 
+			 goods_first_category_id, 
+			 goods_second_category_id, 
+			 goods_third_category_id, 
+			 goods_first_category_name, 
+			 goods_second_category_name, 
+			 goods_third_category_name, 
+			 goods_name, 
+			 sales_order_id, 
+			 order_create_date, 
+			 order_update_date, 
+			 retail_price, 
+			 actual_price, 
+			 order_amount, 
+			 customer_source_id, 
+			 customer_source, 
+			 sales_order_status, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date,
+			 total_price,
+			 goods_attribute_id,
+			 goods_attribute_name
+			FROM t_statistics_total
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "statisticsId != null ">
+		<![CDATA[ and statistics_id  = #{statisticsId} ]]>
+	</if>
+		<if test = "storeId != null ">
+		<![CDATA[ and store_id  = #{storeId} ]]>
+	</if>
+		<if test = "storeName != null ">
+		<![CDATA[ and store_name  = #{storeName} ]]>
+	</if>
+		<if test = "firstOrgId != null ">
+		<![CDATA[ and first_org_id  = #{firstOrgId} ]]>
+	</if>
+		<if test = "secondOrgId != null ">
+		<![CDATA[ and second_org_id  = #{secondOrgId} ]]>
+	</if>
+		<if test = "thirdOrgId != null ">
+		<![CDATA[ and third_org_id  = #{thirdOrgId} ]]>
+	</if>
+		<if test = "firstOrgName != null ">
+		<![CDATA[ and first_org_name  = #{firstOrgName} ]]>
+	</if>
+		<if test = "secondOrgName != null ">
+		<![CDATA[ and second_org_name  = #{secondOrgName} ]]>
+	</if>
+		<if test = "thirdOrgName != null ">
+		<![CDATA[ and third_org_name  = #{thirdOrgName} ]]>
+	</if>
+		<if test = "partnerName != null ">
+		<![CDATA[ and partner_name  = #{partnerName} ]]>
+	</if>
+		<if test = "franchiseeName != null ">
+		<![CDATA[ and franchisee_name  = #{franchiseeName} ]]>
+	</if>
+		<if test = "partnerId != null ">
+		<![CDATA[ and partner_id  = #{partnerId} ]]>
+	</if>
+		<if test = "franchiseeId != null ">
+		<![CDATA[ and franchisee_id  = #{franchiseeId} ]]>
+	</if>
+		<if test = "goodsFirstCategoryId != null ">
+		<![CDATA[ and goods_first_category_id  = #{goodsFirstCategoryId} ]]>
+	</if>
+		<if test = "goodsSecondCategoryId != null ">
+		<![CDATA[ and goods_second_category_id  = #{goodsSecondCategoryId} ]]>
+	</if>
+		<if test = "goodsThirdCategoryId != null ">
+		<![CDATA[ and goods_third_category_id  = #{goodsThirdCategoryId} ]]>
+	</if>
+		<if test = "goodsFirstCategoryName != null ">
+		<![CDATA[ and goods_first_category_name  = #{goodsFirstCategoryName} ]]>
+	</if>
+		<if test = "goodsSecondCategoryName != null ">
+		<![CDATA[ and goods_second_category_name  = #{goodsSecondCategoryName} ]]>
+	</if>
+		<if test = "goodsThirdCategoryName != null ">
+		<![CDATA[ and goods_third_category_name  = #{goodsThirdCategoryName} ]]>
+	</if>
+		<if test = "goodsName != null ">
+		<![CDATA[ and goods_name  = #{goodsName} ]]>
+	</if>
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "orderCreateDate != null ">
+		<![CDATA[ and order_create_date  = #{orderCreateDate} ]]>
+	</if>
+		<if test = "orderUpdateDate != null ">
+		<![CDATA[ and order_update_date  = #{orderUpdateDate} ]]>
+	</if>
+		<if test = "retailPrice != null ">
+		<![CDATA[ and retail_price  = #{retailPrice} ]]>
+	</if>
+		<if test = "actualPrice != null ">
+		<![CDATA[ and actual_price  = #{actualPrice} ]]>
+	</if>
+		<if test = "orderAmount != null ">
+		<![CDATA[ and order_amount  = #{orderAmount} ]]>
+	</if>
+		<if test = "customerSourceId != null ">
+		<![CDATA[ and customer_source_id  = #{customerSourceId} ]]>
+	</if>
+		<if test = "customerSource != null ">
+		<![CDATA[ and customer_source  = #{customerSource} ]]>
+	</if>
+		<if test = "salesOrderStatus != null ">
+		<![CDATA[ and sales_order_status  = #{salesOrderStatus} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and DATE_FORMAT(create_date, '%Y-%m-%d') = DATE_FORMAT(#{createDate}, '%Y-%m-%d') ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and DATE_FORMAT(modify_date, '%Y-%m-%d')  = DATE_FORMAT(#{modifyDate}, '%Y-%m-%d') ]]>
+	</if>
+		<if test = "totalPrice != null ">
+		<![CDATA[ and total_price  = #{totalPrice} ]]>
+	</if>
+		<if test = "goodsAttributeId != null ">
+		<![CDATA[ and goods_attribute_id  = #{goodsAttributeId} ]]>
+	</if>
+		<if test = "goodsAttributeName != null ">
+		<![CDATA[ and goods_attribute_name  = #{goodsAttributeName} ]]>
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="statisticsTotalDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="statisticsTotalDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="statisticsTotalDomain" >
+		select * from t_statistics_total
+		where statistics_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.StatisticsTotalDomain">
+		insert into t_statistics_total(
+				statistics_id,
+				store_id,
+				store_name,
+				first_org_id,
+				second_org_id,
+				third_org_id,
+				first_org_name,
+				second_org_name,
+				third_org_name,
+				partner_name,
+				franchisee_name,
+				partner_id,
+				franchisee_id,
+				goods_first_category_id,
+				goods_second_category_id,
+				goods_third_category_id,
+				goods_first_category_name,
+				goods_second_category_name,
+				goods_third_category_name,
+				goods_name,
+				sales_order_id,
+				order_create_date,
+				order_update_date,
+				retail_price,
+				actual_price,
+				order_amount,
+				customer_source_id,
+				customer_source,
+				sales_order_status,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date,
+				total_price,
+				goods_attribute_id,
+				goods_attribute_name
+		)values(
+				#{statisticsId},
+				#{storeId},
+				#{storeName},
+				#{firstOrgId},
+				#{secondOrgId},
+				#{thirdOrgId},
+				#{firstOrgName},
+				#{secondOrgName},
+				#{thirdOrgName},
+				#{partnerName},
+				#{franchiseeName},
+				#{partnerId},
+				#{franchiseeId},
+				#{goodsFirstCategoryId},
+				#{goodsSecondCategoryId},
+				#{goodsThirdCategoryId},
+				#{goodsFirstCategoryName},
+				#{goodsSecondCategoryName},
+				#{goodsThirdCategoryName},
+				#{goodsName},
+				#{salesOrderId},
+				#{orderCreateDate},
+				#{orderUpdateDate},
+				#{retailPrice},
+				#{actualPrice},
+				#{orderAmount},
+				#{customerSourceId},
+				#{customerSource},
+				#{salesOrderStatus},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate},
+				#{totalPrice},
+				#{goodsAttributeId},
+				#{goodsAttributeName}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.StatisticsTotalDomain">
+		update t_statistics_total
+			<set>
+				<if test = "statisticsId != null ">
+					statistics_id = #{statisticsId},
+				</if>
+				<if test = "storeId != null ">
+					store_id = #{storeId},
+				</if>
+				<if test = "storeName != null and storeName != ''">
+					store_name = #{storeName},
+				</if>
+				<if test = "firstOrgId != null ">
+					first_org_id = #{firstOrgId},
+				</if>
+				<if test = "secondOrgId != null ">
+					second_org_id = #{secondOrgId},
+				</if>
+				<if test = "thirdOrgId != null ">
+					third_org_id = #{thirdOrgId},
+				</if>
+				<if test = "firstOrgName != null and firstOrgName != '' ">
+					first_org_name = #{firstOrgName},
+				</if>
+				<if test = "secondOrgName != null and secondOrgName != '' ">
+					second_org_name = #{secondOrgName},
+				</if>
+				<if test = "thirdOrgName != null and thirdOrgName != '' ">
+					third_org_name = #{thirdOrgName},
+				</if>
+				<if test = "partnerName != null and partnerName != '' ">
+					partner_name = #{partnerName},
+				</if>
+				<if test = "franchiseeName != null and franchiseeName != '' ">
+					franchisee_name = #{franchiseeName},
+				</if>
+				<if test = "partnerId != null ">
+					partner_id = #{partnerId},
+				</if>
+				<if test = "franchiseeId != null ">
+					franchisee_id = #{franchiseeId},
+				</if>
+				<if test = "goodsFirstCategoryId != null ">
+					goods_first_category_id = #{goodsFirstCategoryId},
+				</if>
+				<if test = "goodsSecondCategoryId != null ">
+					goods_second_category_id = #{goodsSecondCategoryId},
+				</if>
+				<if test = "goodsThirdCategoryId != null ">
+					goods_third_category_id = #{goodsThirdCategoryId},
+				</if>
+				<if test = "goodsFirstCategoryName != null and goodsFirstCategoryName != '' ">
+					goods_first_category_name = #{goodsFirstCategoryName},
+				</if>
+				<if test = "goodsSecondCategoryName != null and goodsSecondCategoryName != '' ">
+					goods_second_category_name = #{goodsSecondCategoryName},
+				</if>
+				<if test = "goodsThirdCategoryName != null and goodsThirdCategoryName != '' ">
+					goods_third_category_name = #{goodsThirdCategoryName},
+				</if>
+				<if test = "goodsName != null and goodsName != '' ">
+					goods_name = #{goodsName},
+				</if>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "orderCreateDate != null ">
+					order_create_date = #{orderCreateDate},
+				</if>
+				<if test = "orderUpdateDate != null ">
+					order_update_date = #{orderUpdateDate},
+				</if>
+				<if test = "retailPrice != null ">
+					retail_price = #{retailPrice},
+				</if>
+				<if test = "actualPrice != null ">
+					actual_price = #{actualPrice},
+				</if>
+				<if test = "orderAmount != null ">
+					order_amount = #{orderAmount},
+				</if>
+				<if test = "customerSourceId != null ">
+					customer_source_id = #{customerSourceId},
+				</if>
+				<if test = "customerSource != null ">
+					customer_source = #{customerSource},
+				</if>
+				<if test = "salesOrderStatus != null ">
+					sales_order_status = #{salesOrderStatus},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate},
+				</if>
+				<if test = "totalPrice != null ">
+					total_price = #{totalPrice},
+				</if>
+				<if test = "goodsAttributeName != null and goodsAttributeName != '' ">
+					goods_attribute_name = #{goodsAttributeName},
+				</if>
+				<if test = "goodsAttributeId != null ">
+					goods_attribute_id = #{goodsAttributeId}
+				</if>
+			</set>
+		where statistics_id= #{statisticsId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_statistics_total
+		<if test = "id != null ">
+			where statistics_id= #{id}
+		</if>
+		<if test = "id == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	<!-- 根据起止时间查询销售总量 -->
+	<select id="queryStatisticsResult" resultType="java.util.HashMap">
+		select 
+			COUNT(DISTINCT sales_order_id) 'salesOrderTotal',
+			SUM(total_price) 'salesAmountTotal',
+			SUM(IF(goods_first_category_id=#{vehicleCategoryId},order_amount,0)) 'vehicleTotal',
+			SUM(IF(goods_first_category_id=#{merchCategoryId},order_amount,0)) 'merchTotal'
+		from t_statistics_total 
+		where 1=1
+		<if test = "userId != null and userId != ''">
+			<![CDATA[ and create_user_id = #{userId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(order_create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 根据起止时间/商品大类查询商品销量 -->
+	<select id="queryGoodsVolume" resultType="java.util.HashMap">
+		select 
+			goods_first_category_name 'goodsFirstCategoryName',
+			goods_name 'goodsName',
+			actual_price 'retailPrice',
+			SUM(order_amount) AS 'amountTotal'
+		from t_statistics_total 
+		where 1=1
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(order_create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "goodsFirstCategoryId != null and goodsFirstCategoryId != ''">
+			<![CDATA[ and goods_first_category_id = #{goodsFirstCategoryId} ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		GROUP BY goods_name,actual_price
+	</select>
+	
+	<!-- 根据起止时间查询每天的销售订单总量/销售总额 -->
+	<select id="queryOrderStatistics" resultType="java.util.HashMap">
+		select 
+			COUNT(DISTINCT sales_order_id) 'statisticsOrderAmount',
+			SUM(total_price) 'statisticsAmount',
+			substr(order_create_date, 1, 10) 'statisticsDate',
+			substr(order_create_date, 9, 2) 'statisticsDay'
+		from t_statistics_total 
+		where 1=1
+		<if test = "userId != null and userId != ''">
+			<![CDATA[ and create_user_id = #{userId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(order_create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		GROUP BY
+		substr(order_create_date, 1, 10)
+	</select>
+	<!-- 查询今日每时订单/总额统计 -->
+	<select id="queryToDayOrderStatistics" resultType="java.util.HashMap">
+		select 
+			COUNT(DISTINCT sales_order_id) 'statisticsOrderAmount',
+			SUM(total_price) 'statisticsAmount',
+			substr(order_create_date, 12, 2) 'statisticsDate',
+			substr(order_create_date, 12, 2) 'statisticsDay'
+		from t_statistics_total 
+		where 1=1
+		<if test = "userId != null and userId != ''">
+			<![CDATA[ and create_user_id = #{userId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and order_create_date BETWEEN #{startDate} and #{endDate} ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		GROUP BY
+		substr(order_create_date, 1, 13)
+	</select>
+	
+	<!-- 查询有效订单整车分类统计列表 -->
+	<select id="queryCarAssort" resultType="java.util.HashMap">
+		select 
+			goods_second_category_name 'goodsSecondCategoryName',
+			goods_third_category_name 'goodsThirdCategoryName',
+			goods_attribute_name 'goodsAttributeName',
+			first_org_name 'firstOrgName',
+			second_org_name 'secondOrgName',
+			third_org_name 'thirdOrgName',
+			partner_name 'partnerName',
+			franchisee_name 'franchiseeName',
+			store_name 'storeName',
+			IF(ISNULL(#{domain.customerSourceId}),NULL,customer_source) 'customerSource',
+			count(DISTINCT sales_order_id) 'salesOrderAmount'
+		from t_statistics_total 
+		where 1=1
+		<if test = "domain.goodsFirstCategoryId != null and domain.goodsFirstCategoryId != ''">
+			<![CDATA[ and goods_first_category_id = #{domain.goodsFirstCategoryId} ]]>
+		</if>
+		<if test = "domain.goodsSecondCategoryId != null and domain.goodsSecondCategoryId != ''">
+			<![CDATA[ and goods_second_category_id = #{domain.goodsSecondCategoryId} ]]>
+		</if>
+		<if test = "domain.goodsThirdCategoryId != null and domain.goodsThirdCategoryId != ''">
+			<![CDATA[ and goods_third_category_id = #{domain.goodsThirdCategoryId} ]]>
+		</if>
+		<if test = "domain.goodsAttributeId != null and domain.goodsAttributeId != ''">
+			<![CDATA[ and goods_attribute_id = #{domain.goodsAttributeId} ]]>
+		</if>
+		<if test = "domain.firstOrgId != null and domain.firstOrgId != ''">
+			<![CDATA[ and first_org_id = #{domain.firstOrgId} ]]>
+		</if>
+		<if test = "domain.secondOrgId != null and domain.secondOrgId != ''">
+			<![CDATA[ and second_org_id = #{domain.secondOrgId} ]]>
+		</if>
+		<if test = "domain.thirdOrgId != null and domain.thirdOrgId != ''">
+			<![CDATA[ and third_org_id = #{domain.thirdOrgId} ]]>
+		</if>
+		<if test = "domain.partnerId != null and domain.partnerId != ''">
+			<![CDATA[ and partner_id = #{domain.partnerId} ]]>
+		</if>
+		<if test = "domain.franchiseeId != null and domain.franchiseeId != ''">
+			<![CDATA[ and franchisee_id = #{domain.franchiseeId} ]]>
+		</if>
+		<if test = "domain.storeId != null and domain.storeId != ''">
+			<![CDATA[ and store_id = #{domain.storeId} ]]>
+		</if>
+		<if test = "domain.customerSourceId != null and domain.customerSourceId != ''">
+			<![CDATA[ and customer_source_id  = #{domain.customerSourceId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(order_create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		GROUP BY goods_third_category_id,goods_attribute_id,store_id
+	</select>
+	
+	<!-- 根据门店id/起止时间,查询商品的销售情况 -->
+	<select id="queryGoodsList" resultType="java.util.HashMap">
+		select 
+			goods_name 'goodsName',
+			actual_price 'actualPrice',
+			SUM(total_price) 'totalPrice',
+			SUM(order_amount) 'orderAmount'
+		from t_statistics_total 
+		where 1=1
+		<if test = "userId != null and userId != ''">
+			<![CDATA[ and create_user_id = #{userId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null">
+			<![CDATA[ and TO_DAYS(order_create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeIds != null and storeIds != ''">
+			and store_id = #{storeIds}
+		</if>
+		GROUP BY goods_third_category_id,actual_price
+		<choose>
+			<when test="sortFlag == 0">
+				ORDER BY actual_price
+			</when>
+			<when test="sortFlag == 2">
+				ORDER BY orderAmount
+			</when>
+			<when test="sortFlag == 3">
+				ORDER BY orderAmount DESC
+			</when>
+			<otherwise>
+				ORDER BY actual_price DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryMaxDate" resultType="java.lang.String">
+		select 
+			MAX(order_update_date)
+		from t_statistics_total
+	</select>
+	
+</mapper>

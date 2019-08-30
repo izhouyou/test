@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.NewReturnOrderDAO">
+    <!-- 返回值映射map -->
+    <resultMap id="newReturnOrderDomain" type="com.camelot.order.domain.NewReturnOrderDomain">
+        <result property="returnOrderId" column="return_order_id"/>
+        <result property="returnOrderNumber" column="return_order_number"/>
+        <result property="salesOrderId" column="sales_order_id"/>
+        <result property="salesOrderNumber" column="sales_order_number"/>
+        <result property="firstOrgId" column="first_org_id"/>
+        <result property="firstOrgNumber" column="first_org_number"/>
+        <result property="firstOrgName" column="first_org_name"/>
+        <result property="secondOrgId" column="second_org_id"/>
+        <result property="secondOrgNumber" column="second_org_number"/>
+        <result property="secondOrgName" column="second_org_name"/>
+        <result property="thirdOrgId" column="third_org_id"/>
+        <result property="thirdOrgNumber" column="third_org_number"/>
+        <result property="thirdOrgName" column="third_org_name"/>
+        <result property="storeId" column="store_id"/>
+        <result property="storeNumber" column="store_number"/>
+        <result property="storeChannelNumber" column="store_channel_number"/>
+        <result property="storeName" column="store_name"/>
+        <result property="niuOrgId" column="niu_org_id"/>
+        <result property="niuOrgNumber" column="niu_org_number"/>
+        <result property="niuOrgName" column="niu_org_name"/>
+        <result property="partnerId" column="partner_id"/>
+        <result property="partnerNumber" column="partner_number"/>
+        <result property="partnerName" column="partner_name"/>
+        <result property="traderId" column="trader_id"/>
+        <result property="traderNumber" column="trader_number"/>
+        <result property="traderName" column="trader_name"/>
+        <result property="returnOrderAmount" column="return_order_amount"/>
+        <result property="returnOrderStatusId" column="return_order_status_id"/>
+        <result property="returnOrderStatusNumber" column="return_order_status_number"/>
+        <result property="returnOrderStatusName" column="return_order_status_name"/>
+        <result property="paymentStatusId" column="payment_status_id"/>
+        <result property="paymentStatusNumber" column="payment_status_number"/>
+        <result property="paymentStatusName" column="payment_status_name"/>
+        <result property="returnReasonId" column="return_reason_id"/>
+        <result property="returnReasonNumber" column="return_reason_number"/>
+        <result property="returnReasonName" column="return_reason_name"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerPhoneNumber" column="customer_phone_number"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="customerSourceId" column="customer_source_id"/>
+        <result property="customerSourceNumber" column="customer_source_number"/>
+        <result property="customerSourceName" column="customer_source_name"/>
+        <result property="activityId" column="activity_id"/>
+        <result property="activityNumber" column="activity_number"/>
+        <result property="activityName" column="activity_name"/>
+        <result property="couponId" column="coupon_id"/>
+        <result property="couponCode" column="coupon_code"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="delFlg" column="del_flg"/>
+        <result property="paymentWayId" column="payment_way_id"/>
+        <result property="paymentWayNumber" column="payment_way_number"/>
+        <result property="paymentWayName" column="payment_way_name"/>
+        <result property="createDate" column="create_date"/>
+        <result property="salesOrderSourceId" column="sales_order_source_id"/>
+        <result property="salesOrderSourceNumber" column="sales_order_source_number"/>
+        <result property="salesOrderSourceName" column="sales_order_source_name"/>
+    </resultMap>
+
+
+    <!-- 查询数量公共sql -->
+    <sql id="total_size">
+		select count(1) from t_new_return_order
+	</sql>
+
+    <!-- 查询字段公共sql -->
+    <sql id="select_all">
+		<![CDATA[
+
+                                SELECT
+                                     return_order_id,
+                                     return_order_number,
+                                     sales_order_id,
+                                     sales_order_number,
+                                     first_org_id,
+                                     first_org_number,
+                                     first_org_name,
+                                     second_org_id,
+                                     second_org_number,
+                                     second_org_name,
+                                     third_org_id,
+                                     third_org_number,
+                                     third_org_name,
+                                     store_id,
+                                     store_number,
+                                     store_channel_number,
+                                     store_name,
+                                     niu_org_id,
+                                     niu_org_number,
+                                     niu_org_name,
+                                     partner_id,
+                                     partner_number,
+                                     partner_name,
+                                     trader_id,
+                                     trader_number,
+                                     trader_name,
+                                     return_order_amount,
+                                     return_order_status_id,
+                                     return_order_status_number,
+                                     return_order_status_name,
+                                     payment_status_id,
+                                     payment_status_number,
+                                     payment_status_name,
+                                     return_reason_id,
+                                     return_reason_number,
+                                     return_reason_name,
+                                     customer_id,
+                                     customer_phone_number,
+                                     customer_name,
+                                     customer_source_id,
+                                     customer_source_number,
+                                     customer_source_name,
+                                     activity_id,
+                                     activity_number,
+                                     activity_name,
+                                     coupon_id,
+                                     coupon_code,
+                                     create_user_id,
+                                     create_user_name,
+                                     del_flg,
+                                     payment_way_id,
+                                     payment_way_number,
+                                     payment_way_name,
+                                     create_date,
+                                     sales_order_source_id,
+                                     sales_order_source_number,
+                                    sales_order_source_name
+                                    FROM t_new_return_order
+
+        ]]>
+	</sql>
+
+    <sql id="where">
+        where 1=1
+        <if test="returnOrderId != null ">
+            <![CDATA[ and return_order_id  = #{returnOrderId} ]]>
+        </if>
+        <if test="returnOrderNumber != null and returnOrderNumber != ''">
+            <![CDATA[ and return_order_number like CONCAT('%', #{returnOrderNumber}, '%') ]]>
+        </if>
+        <if test="salesOrderId != null ">
+            <![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+        </if>
+        <if test="salesOrderNumber != null and salesOrderNumber != ''">
+            <![CDATA[ and sales_order_number  = #{salesOrderNumber} ]]>
+        </if>
+        <if test="firstOrgId != null ">
+            <![CDATA[ and first_org_id  = #{firstOrgId} ]]>
+        </if>
+        <if test="firstOrgNumber != null ">
+            <![CDATA[ and first_org_number  = #{firstOrgNumber} ]]>
+        </if>
+        <if test="firstOrgName != null ">
+            <![CDATA[ and first_org_name  = #{firstOrgName} ]]>
+        </if>
+        <if test="secondOrgId != null ">
+            <![CDATA[ and second_org_id  = #{secondOrgId} ]]>
+        </if>
+        <if test="secondOrgNumber != null ">
+            <![CDATA[ and second_org_number  = #{secondOrgNumber} ]]>
+        </if>
+        <if test="secondOrgName != null ">
+            <![CDATA[ and second_org_name  = #{secondOrgName} ]]>
+        </if>
+        <if test="thirdOrgId != null ">
+            <![CDATA[ and third_org_id  = #{thirdOrgId} ]]>
+        </if>
+        <if test="thirdOrgNumber != null ">
+            <![CDATA[ and third_org_number  = #{thirdOrgNumber} ]]>
+        </if>
+        <if test="thirdOrgName != null ">
+            <![CDATA[ and third_org_name  = #{thirdOrgName} ]]>
+        </if>
+        <if test="storeId != null ">
+            <![CDATA[ and store_id  = #{storeId} ]]>
+        </if>
+        <if test="storeChannelNumber != null ">
+            <![CDATA[ and store_channel_number  = #{storeChannelNumber} ]]>
+        </if>
+        <if test="storeName != null and storeName != ''">
+            <![CDATA[ and store_name like CONCAT('%', #{storeName}, '%') ]]>
+        </if>
+        <if test="storeSearch != null and storeSearch != ''">
+            and (store_name like CONCAT('%', #{storeSearch}, '%') or store_number like CONCAT('%', #{storeSearch}, '%'))
+        </if>
+        <if test="storeNumber != null and storeNumber != ''">
+            <![CDATA[ and store_number like CONCAT('%', #{storeNumber}, '%') ]]>
+        </if>
+        <if test="niuOrgId != null ">
+            <![CDATA[ and niu_org_id  = #{niuOrgId} ]]>
+        </if>
+        <if test="niuOrgNumber != null ">
+            <![CDATA[ and niu_org_number  = #{niuOrgNumber} ]]>
+        </if>
+        <if test="niuOrgName != null ">
+            <![CDATA[ and niu_org_name  = #{niuOrgName} ]]>
+        </if>
+        <if test="partnerId != null ">
+            <![CDATA[ and partner_id  = #{partnerId} ]]>
+        </if>
+        <if test="partnerNumber != null ">
+            <![CDATA[ and partner_number  = #{partnerNumber} ]]>
+        </if>
+        <if test="partnerName != null ">
+            <![CDATA[ and partner_name  = #{partnerName} ]]>
+        </if>
+        <if test="traderId != null ">
+            <![CDATA[ and trader_id  = #{traderId} ]]>
+        </if>
+        <if test="traderNumber != null ">
+            <![CDATA[ and trader_number  = #{traderNumber} ]]>
+        </if>
+        <if test="traderName != null ">
+            <![CDATA[ and trader_name  = #{traderName} ]]>
+        </if>
+        <if test="returnOrderAmount != null ">
+            <![CDATA[ and return_order_amount  = #{returnOrderAmount} ]]>
+        </if>
+        <if test="returnOrderStatusId != null ">
+            <![CDATA[ and return_order_status_id  = #{returnOrderStatusId} ]]>
+        </if>
+        <if test="returnOrderStatusNumber != null ">
+            <![CDATA[ and return_order_status_number  = #{returnOrderStatusNumber} ]]>
+        </if>
+        <if test="returnOrderStatusName != null ">
+            <![CDATA[ and return_order_status_name  = #{returnOrderStatusName} ]]>
+        </if>
+        <if test="paymentStatusId != null ">
+            <![CDATA[ and payment_status_id  = #{paymentStatusId} ]]>
+        </if>
+        <if test="paymentStatusNumber != null ">
+            <![CDATA[ and payment_status_number  = #{paymentStatusNumber} ]]>
+        </if>
+        <if test="paymentStatusName != null ">
+            <![CDATA[ and payment_status_name  = #{paymentStatusName} ]]>
+        </if>
+        <if test="returnReasonId != null ">
+            <![CDATA[ and return_reason_id  = #{returnReasonId} ]]>
+        </if>
+        <if test="returnReasonNumber != null ">
+            <![CDATA[ and return_reason_number  = #{returnReasonNumber} ]]>
+        </if>
+        <if test="returnReasonName != null ">
+            <![CDATA[ and return_reason_name  = #{returnReasonName} ]]>
+        </if>
+        <if test="customerId != null ">
+            <![CDATA[ and customer_id  = #{customerId} ]]>
+        </if>
+        <if test="customerPhoneNumber != null and customerPhoneNumber != ''">
+            <![CDATA[ and customer_phone_number  = #{customerPhoneNumber} ]]>
+        </if>
+        <if test="customerName != null and customerName != ''">
+            <![CDATA[ and customer_name  = #{customerName} ]]>
+        </if>
+        <if test="customerSourceId != null ">
+            <![CDATA[ and customer_source_id  = #{customerSourceId} ]]>
+        </if>
+        <if test="customerSourceNumber != null ">
+            <![CDATA[ and customer_source_number  = #{customerSourceNumber} ]]>
+        </if>
+        <if test="customerSourceName != null ">
+            <![CDATA[ and customer_source_name  = #{customerSourceName} ]]>
+        </if>
+        <if test="activityId != null ">
+            <![CDATA[ and activity_id  = #{activityId} ]]>
+        </if>
+        <if test="activityNumber != null ">
+            <![CDATA[ and activity_number  = #{activityNumber} ]]>
+        </if>
+        <if test="activityName != null ">
+            <![CDATA[ and activity_name  = #{activityName} ]]>
+        </if>
+        <if test="couponId != null ">
+            <![CDATA[ and coupon_id  = #{couponId} ]]>
+        </if>
+        <if test="couponCode != null ">
+            <![CDATA[ and coupon_code  = #{couponCode} ]]>
+        </if>
+        <if test="createUserId != null ">
+            <![CDATA[ and create_user_id  = #{createUserId} ]]>
+        </if>
+        <if test="createUserName != null ">
+            <![CDATA[ and create_user_name  = #{createUserName} ]]>
+        </if>
+        <if test="delFlg != null ">
+            <![CDATA[ and del_flg  = #{delFlg} ]]>
+        </if>
+        <if test="paymentWayId != null ">
+            <![CDATA[ and payment_way_id  = #{paymentWayId} ]]>
+        </if>
+        <if test="paymentWayNumber != null ">
+            <![CDATA[ and payment_way_number  = #{paymentWayNumber} ]]>
+        </if>
+        <if test="paymentWayName != null ">
+            <![CDATA[ and payment_way_name  = #{paymentWayName} ]]>
+        </if>
+        <if test="createDate != null ">
+            <![CDATA[ and create_date  = #{createDate} ]]>
+        </if>
+        <if test="salesOrderSourceId != null ">
+            <![CDATA[ and sales_order_source_id  = #{salesOrderSourceId} ]]>
+        </if>
+        <if test="salesOrderSourceNumber != null ">
+            <![CDATA[ and sales_order_source_number  = #{salesOrderSourceNumber} ]]>
+        </if>
+        <if test="salesOrderSourceName != null ">
+            <![CDATA[ and sales_order_source_name  = #{salesOrderSourceName} ]]>
+        </if>
+        <if test="beginSearchDate != null ">
+            <![CDATA[ AND create_date >= #{beginSearchDate} ]]>
+        </if>
+        <if test="endSearchDate != null ">
+            <![CDATA[ AND create_date <= date_sub(#{endSearchDate},interval -1 day) ]]>
+        </if>
+        <if test="startCreateDate != null ">
+            <![CDATA[ AND TO_DAYS(create_date) >= TO_DAYS(#{startCreateDate}) ]]>
+        </if>
+        <if test="endCreateDate != null ">
+            <![CDATA[ AND TO_DAYS(create_date) <= TO_DAYS(#{endCreateDate}) ]]>
+        </if>
+        <if test="orgList != null ">
+            and third_org_id IN
+            <foreach item="item" index="index" collection="orgList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="storeList != null ">
+            and store_id IN
+            <foreach item="item" index="index" collection="storeList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="newReturnOrderIdList != null ">
+            and return_order_id IN
+            <foreach item="item" index="index" collection="newReturnOrderIdList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="salesOrderIdList != null and salesOrderIdList.size() > 0 ">
+            and sales_order_id IN
+            <foreach item="item" index="index" collection="salesOrderIdList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="queryList" resultMap="newReturnOrderDomain">
+        <include refid="select_all"/>
+        <include refid="where"/>
+        order by create_date desc
+    </select>
+
+
+    <select id="queryCount" resultType="long">
+        <include refid="total_size"></include>
+        <include refid="where"></include>
+    </select>
+
+    <!-- 查询单个实体 -->
+    <select id="queryDomain" resultMap="newReturnOrderDomain">
+        <include refid="select_all"/>
+        <include refid="where"/>
+    </select>
+    <select id="queryById" resultMap="newReturnOrderDomain">
+		select * from t_new_return_order
+		where return_order_id= #{id}
+	</select>
+
+    <!-- 新增 -->
+    <insert id="add" parameterType="com.camelot.order.domain.NewReturnOrderDomain" useGeneratedKeys="true" keyProperty="returnOrderId">
+		insert into t_new_return_order(
+				return_order_id,
+				return_order_number,
+				sales_order_id,
+				sales_order_number,
+				first_org_id,
+				first_org_number,
+				first_org_name,
+				second_org_id,
+				second_org_number,
+				second_org_name,
+				third_org_id,
+				third_org_number,
+				third_org_name,
+				store_id,
+				store_number,
+				store_channel_number,
+				store_name,
+				niu_org_id,
+				niu_org_number,
+				niu_org_name,
+				partner_id,
+				partner_number,
+				partner_name,
+				trader_id,
+				trader_number,
+				trader_name,
+				return_order_amount,
+				return_order_status_id,
+				return_order_status_number,
+				return_order_status_name,
+				payment_status_id,
+				payment_status_number,
+				payment_status_name,
+				return_reason_id,
+				return_reason_number,
+				return_reason_name,
+				customer_id,
+				customer_phone_number,
+				customer_name,
+				customer_source_id,
+				customer_source_number,
+				customer_source_name,
+				activity_id,
+				activity_number,
+				activity_name,
+				coupon_id,
+				coupon_code,
+				create_user_id,
+				create_user_name,
+				del_flg,
+				payment_way_id,
+				payment_way_number,
+				payment_way_name,
+				create_date,
+				sales_order_source_id,
+				sales_order_source_number,
+				sales_order_source_name
+		)values(
+				#{returnOrderId},
+				#{returnOrderNumber},
+				#{salesOrderId},
+				#{salesOrderNumber},
+				#{firstOrgId},
+				#{firstOrgNumber},
+				#{firstOrgName},
+				#{secondOrgId},
+				#{secondOrgNumber},
+				#{secondOrgName},
+				#{thirdOrgId},
+				#{thirdOrgNumber},
+				#{thirdOrgName},
+				#{storeId},
+				#{storeNumber},
+				#{storeChannelNumber},
+				#{storeName},
+				#{niuOrgId},
+				#{niuOrgNumber},
+				#{niuOrgName},
+				#{partnerId},
+				#{partnerNumber},
+				#{partnerName},
+				#{traderId},
+				#{traderNumber},
+				#{traderName},
+				#{returnOrderAmount},
+				#{returnOrderStatusId},
+				#{returnOrderStatusNumber},
+				#{returnOrderStatusName},
+				#{paymentStatusId},
+				#{paymentStatusNumber},
+				#{paymentStatusName},
+				#{returnReasonId},
+				#{returnReasonNumber},
+				#{returnReasonName},
+				#{customerId},
+				#{customerPhoneNumber},
+				#{customerName},
+				#{customerSourceId},
+				#{customerSourceNumber},
+				#{customerSourceName},
+				#{activityId},
+				#{activityNumber},
+				#{activityName},
+				#{couponId},
+				#{couponCode},
+				#{createUserId},
+				#{createUserName},
+				#{delFlg},
+				#{paymentWayId},
+				#{paymentWayNumber},
+				#{paymentWayName},
+				#{createDate},
+				#{customerSourceId},
+				#{customerSourceNumber},
+				#{customerSourceName}
+		)
+	</insert>
+    <!-- 编辑 -->
+    <update id="update" parameterType="com.camelot.order.domain.NewReturnOrderDomain">
+        update t_new_return_order
+        <set>
+            <if test="returnOrderId != null ">
+                return_order_id = #{returnOrderId},
+            </if>
+            <if test="returnOrderNumber != null ">
+                return_order_number = #{returnOrderNumber},
+            </if>
+            <if test="salesOrderId != null ">
+                sales_order_id = #{salesOrderId},
+            </if>
+            <if test="salesOrderNumber != null ">
+                sales_order_number = #{salesOrderNumber},
+            </if>
+            <if test="firstOrgId != null ">
+                first_org_id = #{firstOrgId},
+            </if>
+            <if test="firstOrgNumber != null ">
+                first_org_number = #{firstOrgNumber},
+            </if>
+            <if test="firstOrgName != null ">
+                first_org_name = #{firstOrgName},
+            </if>
+            <if test="secondOrgId != null ">
+                second_org_id = #{secondOrgId},
+            </if>
+            <if test="secondOrgNumber != null ">
+                second_org_number = #{secondOrgNumber},
+            </if>
+            <if test="secondOrgName != null ">
+                second_org_name = #{secondOrgName},
+            </if>
+            <if test="thirdOrgId != null ">
+                third_org_id = #{thirdOrgId},
+            </if>
+            <if test="thirdOrgNumber != null ">
+                third_org_number = #{thirdOrgNumber},
+            </if>
+            <if test="thirdOrgName != null ">
+                third_org_name = #{thirdOrgName},
+            </if>
+            <if test="storeId != null ">
+                store_id = #{storeId},
+            </if>
+            <if test="storeChannelNumber != null ">
+                store_channel_number = #{storeChannelNumber},
+            </if>
+            <if test="storeNumber != null ">
+                store_number = #{storeNumber},
+            </if>
+            <if test="storeName != null ">
+                store_name = #{storeName},
+            </if>
+            <if test="niuOrgId != null ">
+                niu_org_id = #{niuOrgId},
+            </if>
+            <if test="niuOrgNumber != null ">
+                niu_org_number = #{niuOrgNumber},
+            </if>
+            <if test="niuOrgName != null ">
+                niu_org_name = #{niuOrgName},
+            </if>
+            <if test="partnerId != null ">
+                partner_id = #{partnerId},
+            </if>
+            <if test="partnerNumber != null ">
+                partner_number = #{partnerNumber},
+            </if>
+            <if test="partnerName != null ">
+                partner_name = #{partnerName},
+            </if>
+            <if test="traderId != null ">
+                trader_id = #{traderId},
+            </if>
+            <if test="traderNumber != null ">
+                trader_number = #{traderNumber},
+            </if>
+            <if test="traderName != null ">
+                trader_name = #{traderName},
+            </if>
+            <if test="returnOrderAmount != null ">
+                return_order_amount = #{returnOrderAmount},
+            </if>
+            <if test="returnOrderStatusId != null ">
+                return_order_status_id = #{returnOrderStatusId},
+            </if>
+            <if test="returnOrderStatusNumber != null ">
+                return_order_status_number = #{returnOrderStatusNumber},
+            </if>
+            <if test="returnOrderStatusName != null ">
+                return_order_status_name = #{returnOrderStatusName},
+            </if>
+            <if test="paymentStatusId != null ">
+                payment_status_id = #{paymentStatusId},
+            </if>
+            <if test="paymentStatusNumber != null ">
+                payment_status_number = #{paymentStatusNumber},
+            </if>
+            <if test="paymentStatusName != null ">
+                payment_status_name = #{paymentStatusName},
+            </if>
+            <if test="returnReasonId != null ">
+                return_reason_id = #{returnReasonId},
+            </if>
+            <if test="returnReasonNumber != null ">
+                return_reason_number = #{returnReasonNumber},
+            </if>
+            <if test="returnReasonName != null ">
+                return_reason_name = #{returnReasonName},
+            </if>
+            <if test="customerId != null ">
+                customer_id = #{customerId},
+            </if>
+            <if test="customerPhoneNumber != null ">
+                customer_phone_number = #{customerPhoneNumber},
+            </if>
+            <if test="customerName != null ">
+                customer_name = #{customerName},
+            </if>
+            <if test="customerSourceId != null ">
+                customer_source_id = #{customerSourceId},
+            </if>
+            <if test="customerSourceNumber != null ">
+                customer_source_number = #{customerSourceNumber},
+            </if>
+            <if test="customerSourceName != null ">
+                customer_source_name = #{customerSourceName},
+            </if>
+            <if test="activityId != null ">
+                activity_id = #{activityId},
+            </if>
+            <if test="activityNumber != null ">
+                activity_number = #{activityNumber},
+            </if>
+            <if test="activityName != null ">
+                activity_name = #{activityName},
+            </if>
+            <if test="couponId != null ">
+                coupon_id = #{couponId},
+            </if>
+            <if test="couponCode != null ">
+                coupon_code = #{couponCode},
+            </if>
+            <if test="createUserId != null ">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="createUserName != null ">
+                create_user_name = #{createUserName},
+            </if>
+            <if test="delFlg != null ">
+                del_flg = #{delFlg},
+            </if>
+            <if test="paymentWayId != null ">
+                payment_way_id = #{paymentWayId},
+            </if>
+            <if test="paymentWayNumber != null ">
+                payment_way_number = #{paymentWayNumber},
+            </if>
+            <if test="paymentWayName != null ">
+                payment_way_name = #{paymentWayName},
+            </if>
+            <if test="createDate != null ">
+                create_date = #{createDate},
+            </if>
+            <if test="salesOrderSourceId != null ">
+                sales_order_source_id = #{salesOrderSourceId},
+            </if>
+            <if test="salesOrderSourceNumber != null ">
+                sales_order_source_number = #{salesOrderSourceNumber},
+            </if>
+            <if test="salesOrderSourceName != null ">
+                sales_order_source_name = #{salesOrderSourceName}
+            </if>
+        </set>
+        where return_order_id= #{returnOrderId}
+    </update>
+
+
+    <delete id="delete">
+        delete from t_new_return_order
+        <if test="returnOrderId != null ">
+            where return_order_id= #{id}
+        </if>
+        <if test="returnOrderId == null ">
+            where 1 = 3
+        </if>
+    </delete>
+
+    <!-- 根据查询退货总额 -->
+    <select id="queryReturnAmount" resultType="java.math.BigDecimal">
+        select
+        SUM(return_order_amount) 'returnOrderAmount'
+        from t_new_return_order
+        <include refid="where"/>
+    </select>
+
+    <!--最大退货订单-->
+    <select id="getMaxReturnOrderNumber" resultType="java.lang.String">
+		select MAX(RIGHT(sales_order_number,5)) from t_new_return_order
+		where create_date like CONCAT(#{nowDate}, '%')
+	</select>
+
+    <!-- 门店销售退货统计 -->
+    <select id="queryStatsReturnOrderPage" resultType="java.util.HashMap" >
+        select store_id as storeId,store_number as storeNumber,store_channel_number as storeChannelNumber,store_name as storeName,count(1) as saleAmount
+        from t_new_return_order r,t_new_return_order_goods g
+        <include refid="where" />
+        and g.return_order_id = r.return_order_id and g.first_category_id=1
+        GROUP BY store_id order by saleAmount desc ,storeNumber
+    </select>
+
+    <!-- 门店销售退货统计  按照退货原因分析-->
+    <select id="queryStatsReturnByReason" resultType="java.util.HashMap" >
+        select return_reason_name as name, count(1) as amount
+        from t_new_return_order o,t_new_return_order_goods g
+        <include refid="where" />
+        and g.return_order_id = o.return_order_id and g.first_category_id=1
+        GROUP BY return_reason_id
+    </select>
+
+    <select id="queryCountAmount" resultType="java.util.HashMap" >
+        select
+        COUNT(*) 'returnOrderTotal',
+        SUM(return_order_amount) 'returnAmountTotal'
+        from t_new_return_order
+        <include refid="where"/>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.OrderGoodsDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="orderGoodsDomain" type="com.camelot.order.domain.OrderGoodsDomain">
+			<result property="orderGoodsId" column="order_goods_id" />
+			<result property="orderId" column="order_id" />
+			<result property="goodsId" column="goods_id" />
+			<result property="goodsSn" column="goods_sn" />
+			<result property="goodsFrameNumber" column="goods_frame_number" />
+			<result property="orderAmount" column="order_amount" />
+			<result property="returnAmount" column="return_amount" />
+			<result property="retailPrice" column="retail_price" />
+			<result property="actualPrice" column="actual_price" />
+			<result property="delFlg" column="del_flg" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_order_goods
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 order_goods_id, 
+			 order_id, 
+			 goods_id, 
+			 goods_sn, 
+			 goods_frame_number, 
+			 order_amount, 
+			 return_amount, 
+			 retail_price, 
+			 actual_price, 
+			 del_flg, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date 
+			FROM t_order_goods
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "orderGoodsId != null ">
+		<![CDATA[ and order_goods_id  = #{orderGoodsId} ]]>
+	</if>
+		<if test = "orderId != null ">
+		<![CDATA[ and order_id  = #{orderId} ]]>
+	</if>
+		<if test = "goodsId != null ">
+		<![CDATA[ and goods_id  = #{goodsId} ]]>
+	</if>
+		<if test = "goodsSn != null ">
+		<![CDATA[ and goods_sn  = #{goodsSn} ]]>
+	</if>
+		<if test = "goodsFrameNumber != null ">
+		<![CDATA[ and goods_frame_number  = #{goodsFrameNumber} ]]>
+	</if>
+		<if test = "orderAmount != null ">
+		<![CDATA[ and order_amount  = #{orderAmount} ]]>
+	</if>
+		<if test = "returnAmount != null ">
+		<![CDATA[ and return_amount  = #{returnAmount} ]]>
+	</if>
+		<if test = "retailPrice != null ">
+		<![CDATA[ and retail_price  = #{retailPrice} ]]>
+	</if>
+		<if test = "actualPrice != null ">
+		<![CDATA[ and actual_price  = #{actualPrice} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and create_date  = #{createDate} ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and modify_date  = #{modifyDate} ]]>
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="orderGoodsDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="orderGoodsDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="orderGoodsDomain" >
+		select * from t_order_goods
+		where order_goods_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.OrderGoodsDomain">
+		insert into t_order_goods(
+				order_goods_id,
+				order_id,
+				goods_id,
+				goods_sn,
+				goods_frame_number,
+				order_amount,
+				return_amount,
+				retail_price,
+				actual_price,
+				del_flg,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date
+		)values(
+				#{orderGoodsId},
+				#{orderId},
+				#{goodsId},
+				#{goodsSn},
+				#{goodsFrameNumber},
+				#{orderAmount},
+				#{returnAmount},
+				#{retailPrice},
+				#{actualPrice},
+				#{delFlg},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.OrderGoodsDomain">
+		update t_order_goods
+			<set>
+				<if test = "orderGoodsId != null ">
+					order_goods_id = #{orderGoodsId},
+				</if>
+				<if test = "orderId != null ">
+					order_id = #{orderId},
+				</if>
+				<if test = "goodsId != null ">
+					goods_id = #{goodsId},
+				</if>
+				<if test = "goodsSn != null ">
+					goods_sn = #{goodsSn},
+				</if>
+				<if test = "goodsFrameNumber != null ">
+					goods_frame_number = #{goodsFrameNumber},
+				</if>
+				<if test = "orderAmount != null ">
+					order_amount = #{orderAmount},
+				</if>
+				<if test = "returnAmount != null ">
+					return_amount = #{returnAmount},
+				</if>
+				<if test = "retailPrice != null ">
+					retail_price = #{retailPrice},
+				</if>
+				<if test = "actualPrice != null ">
+					actual_price = #{actualPrice},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate}
+				</if>
+			</set>
+		where order_goods_id= #{orderGoodsId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_order_goods
+		<if test = "orderGoodsId != null ">
+			where order_goods_id= #{id}
+		</if>
+		<if test = "orderGoodsId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	<!-- 零售差异订单查询 -->
+	<select id="querySalesDifference" resultMap="orderGoodsDomain">
+		<include refid="select_all"></include>
+		where (retail_price-actual_price)*order_amount != 0
+		<if test = "minAmount != null and minAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price)*order_amount >= ABS(#{minAmount}) ]]>
+		</if>
+		<if test = "maxAmount != null and maxAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price)*order_amount <= ABS(#{maxAmount}) ]]>
+		</if>
+		<if test = "goodsSn != null and goodsSn != '' ">
+			<![CDATA[ and goods_sn = #{goodsSn} ]]>
+		</if>
+		<if test = "goodsFrameNumber != null and goodsFrameNumber != '' ">
+			<![CDATA[ and goods_frame_number = #{goodsFrameNumber} ]]>
+		</if>
+		<if test = "orderIds != null and orderIds.size() > 0 ">
+			and order_id IN
+			<foreach item="orderId" index="index" collection="orderIds" open="(" separator="," close=")"> 
+				#{orderId}
+			</foreach>
+		</if>
+		ORDER BY order_goods_id DESC
+	</select>
+	<!-- 根据订单ids/最小差异金额/最大差异金额/商品SN码/车架号,查询商品订单信息 -->
+	<select id="queryListByOrderId" resultMap="orderGoodsDomain">
+		<include refid="select_all"></include>
+		where 1 = 1
+		<if test = "minAmount != null and minAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price) >= #{minAmount} ]]>
+		</if>
+		<if test = "maxAmount != null and maxAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price) <= #{maxAmount} ]]>
+		</if>
+		<if test = "goodsSn != null and goodsSn != '' ">
+			<![CDATA[ and goods_sn = #{goodsSn} ]]>
+		</if>
+		<if test = "goodsFrameNumber != null and goodsFrameNumber != '' ">
+			<![CDATA[ and goods_frame_number = #{goodsFrameNumber} ]]>
+		</if>
+		<if test = "orderIds != null and orderIds.size() > 0 ">
+			and order_id IN
+			<foreach item="orderId" index="index" collection="orderIds" open="(" separator="," close=")"> 
+				#{orderId}
+			</foreach>
+		</if>
+	</select>
+	<!-- 根据订单ids,查询商品订单中的商品销售次数 -->
+	<select id="queryReturnGoodsCount" resultType="long">
+		<include refid="total_size"></include>
+		where 1=1
+		<if test = "goodsSn != null and goodsSn != ''">
+			<![CDATA[ and goods_sn = #{goodsSn} ]]>
+		</if>
+		<if test = "orderIds != null and orderIds.size() > 0 ">
+			and order_id IN
+			<foreach item="orderId" index="index" collection="orderIds" open="(" separator="," close=")"> 
+				#{orderId}
+			</foreach>
+		</if>
+		ORDER BY order_goods_id DESC
+	</select>
+	<!-- 根据订单ids/商品SN码/车架号,查询商品订单信息 -->
+	<select id="queryReturnGoods" resultMap="orderGoodsDomain">
+		<include refid="select_all"></include>
+		where 1 = 1
+		<if test = "goodsSn != null and goodsSn != '' ">
+			<![CDATA[ and goods_sn = #{goodsSn} ]]>
+		</if>
+		<if test = "goodsFrameNumber != null and goodsFrameNumber != '' ">
+			<![CDATA[ and goods_frame_number = #{goodsFrameNumber} ]]>
+		</if>
+		<if test = "orderIds != null and orderIds.size() > 0 ">
+			and order_id IN
+			<foreach item="orderId" index="index" collection="orderIds" open="(" separator="," close=")"> 
+				#{orderId}
+			</foreach>
+		</if>
+		GROUP BY goods_sn
+	</select>
+	<!-- 查询整车商品订单 -->
+	<select id="queryVehicle" resultMap="orderGoodsDomain">
+		<include refid="select_all"></include>
+		where 1=1
+		<if test = "orderId != null and orderId != '' ">
+			AND order_id = #{orderId}
+		</if>
+		ORDER BY goods_id
+	</select>
+	
+	<!-- 零售差异商品订单查询 -->
+	<select id="queryDifferenceList" resultMap="orderGoodsDomain">
+		<include refid="select_all"></include>
+		where (retail_price-actual_price)*order_amount != 0
+		<if test = "minAmount != null and minAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price)*order_amount >= ABS(#{minAmount}) ]]>
+		</if>
+		<if test = "maxAmount != null and maxAmount != '' ">
+			<![CDATA[ and ABS(retail_price-actual_price)*order_amount <= ABS(#{maxAmount}) ]]>
+		</if>
+		<if test = "salesOrderIdSet != null and salesOrderIdSet.size() > 0 ">
+			and order_id IN
+			<foreach item="salesOrderId" index="index" collection="salesOrderIdSet" open="(" separator="," close=")"> 
+				#{salesOrderId}
+			</foreach>
+		</if>
+		ORDER BY order_goods_id DESC
+	</select>
+	
+	<select id="querySales" resultMap="orderGoodsDomain">
+		SELECT `t_order_goods`.* 
+		FROM `t_order_goods`,`t_sales_order` 
+		WHERE `t_order_goods`.`order_id`=`t_sales_order`.`sales_order_id`
+	</select>
+	
+	<select id="queryReturn" resultMap="orderGoodsDomain">
+		SELECT `t_order_goods`.* 
+		FROM `t_order_goods`,`t_return_order` 
+		WHERE `t_order_goods`.`order_id`=`t_return_order`.sales_order_id
+	</select>
+</mapper>

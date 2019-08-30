@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.SalesOrderDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="salesOrderDomain" type="com.camelot.order.domain.SalesOrderDomain">
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="salesOrderNumber" column="sales_order_number" />
+			<result property="firstOrgId" column="first_org_id" />
+			<result property="secondOrgId" column="second_org_id" />
+			<result property="thirdOrgId" column="third_org_id" />
+			<result property="storeId" column="store_id" />
+			<result property="salesOrderAmount" column="sales_order_amount" />
+			<result property="paymentWay" column="payment_way" />
+			<result property="salesOrderSource" column="sales_order_source" />
+			<result property="salesOrderStatus" column="sales_order_status" />
+			<result property="returnFlg" column="return_flg" />
+			<result property="customerId" column="customer_id" />
+			<result property="couponId" column="coupon_id" />
+			<result property="activityId" column="activity_id" />
+			<result property="activityPicture" column="activity_picture" />
+			<result property="paymentQrCode" column="payment_qr_code" />
+			<result property="cancelReason" column="cancel_reason" />
+			<result property="salesOrderVersion" column="sales_order_version" />
+			<result property="delFlg" column="del_flg" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+			<result property="transactionId" column="transaction_id" />
+	</resultMap>
+	
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_sales_order
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 sales_order_id, 
+			 sales_order_number, 
+			 first_org_id, 
+			 second_org_id, 
+			 third_org_id, 
+			 store_id, 
+			 sales_order_amount, 
+			 payment_way, 
+			 sales_order_source, 
+			 sales_order_status, 
+			 return_flg, 
+			 customer_id, 
+			 activity_id,
+			 coupon_id, 
+			 activity_picture, 
+			 payment_qr_code,
+			 cancel_reason, 
+			 sales_order_version, 
+			 del_flg, 
+			 create_user_id, 
+			 update_user_id, 
+			 create_date, 
+			 modify_date,
+			 transaction_id
+			FROM t_sales_order
+		]]>
+	</sql>
+	
+	<sql id="order">
+		ORDER BY modify_date DESC
+	</sql>
+	
+	<sql id="where">
+		where 1=1
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "salesOrderNumber != null and salesOrderNumber !=''">
+		<![CDATA[ and sales_order_number  = #{salesOrderNumber} ]]>
+	</if>
+		<if test = "firstOrgId != null and firstOrgId != 0 ">
+		<![CDATA[ and first_org_id  = #{firstOrgId} ]]>
+	</if>
+		<if test = "secondOrgId != null and secondOrgId != 0">
+		<![CDATA[ and second_org_id  = #{secondOrgId} ]]>
+	</if>
+		<if test = "thirdOrgId != null  and thirdOrgId != 0">
+		<![CDATA[ and third_org_id  = #{thirdOrgId} ]]>
+	</if>
+		<if test = "storeId != null and storeId != 0">
+		<![CDATA[ and store_id  = #{storeId} ]]>
+	</if>
+		<if test = "salesOrderAmount != null ">
+		<![CDATA[ and sales_order_amount  = #{salesOrderAmount} ]]>
+	</if>
+		<if test = "paymentWay != null ">
+		<![CDATA[ and payment_way  = #{paymentWay} ]]>
+	</if>
+		<if test = "salesOrderSource != null and salesOrderSource != 0">
+		<![CDATA[ and sales_order_source  = #{salesOrderSource} ]]>
+	</if>
+		<if test = "salesOrderStatus != null  and salesOrderStatus != 0">
+		<![CDATA[ and sales_order_status  = #{salesOrderStatus} ]]>
+	</if>
+		<if test = "returnFlg != null ">
+		<![CDATA[ and return_flg  = #{returnFlg} ]]>
+	</if>
+		<if test = "customerId != null ">
+		<![CDATA[ and customer_id  = #{customerId} ]]>
+	</if>
+		<if test = "activityId != null">
+		<![CDATA[ and activity_id  = #{activityId} ]]>
+		</if>
+		<if test = "couponId != null ">
+		<![CDATA[ and coupon_id  = #{couponId} ]]>
+	</if>
+		<if test = "activityPicture != null ">
+		<![CDATA[ and activity_picture  = #{activityPicture} ]]>
+	</if>
+		<if test = "paymentQrCode != null ">
+		<![CDATA[ and payment_qr_code  = #{paymentQrCode} ]]>
+	</if>
+		<if test = "cancelReason != null ">
+		<![CDATA[ and cancel_reason  = #{cancelReason} ]]>
+	</if>
+		<if test = "salesOrderVersion != null ">
+		<![CDATA[ and sales_order_version  = #{salesOrderVersion} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and DATE_FORMAT(create_date,'%Y-%m-%d')  = DATE_FORMAT(#{createDate},'%Y-%m-%d') ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and DATE_FORMAT(modify_date,'%Y-%m-%d')  = DATE_FORMAT(#{modifyDate},'%Y-%m-%d') ]]>
+	</if>
+		<if test="beginSearchDate != null ">
+		<![CDATA[ AND modify_date >= #{beginSearchDate} ]]>
+	</if>
+		<if test="endSearchDate != null ">
+		<![CDATA[ AND modify_date <= date_sub(#{endSearchDate},interval -1 day) ]]>
+	</if>
+		<if test="transactionId != null ">
+		<![CDATA[ AND transaction_id = #{transactionId} ]]>
+	</if>
+		<if test="salesOrderIdList != null and salesOrderIdList.size()>0">
+			AND sales_order_id in
+			<foreach collection="salesOrderIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+		<if test="customerIdList != null and customerIdList.size()>0">
+			AND customer_id in
+			<foreach collection="customerIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+		<if test="orgIdList != null and orgIdList.size()>0">
+			AND third_org_id in
+			<foreach collection="orgIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+		<if test="storeIdList != null and storeIdList.size()>0">
+			AND store_id in
+			<foreach collection="storeIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+		<if test="statusList != null and statusList.size()>0">
+			AND sales_order_status in
+			<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="salesOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+		<include refid="order" />
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="salesOrderDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="salesOrderDomain" >
+		select * from t_sales_order
+		where sales_order_id= #{id}
+	</select>
+	
+	<!-- 新增(返回主键) -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="salesOrderId"  parameterType="com.camelot.order.domain.SalesOrderDomain">
+		insert into t_sales_order(
+				sales_order_id,
+				sales_order_number,
+				first_org_id,
+				second_org_id,
+				third_org_id,
+				store_id,
+				sales_order_amount,
+				payment_way,
+				sales_order_source,
+				sales_order_status,
+				return_flg,
+				customer_id,
+				activity_id,
+				coupon_id,
+				activity_picture,
+				payment_qr_code,
+				cancel_reason,
+				sales_order_version,
+				del_flg,
+				create_user_id,
+				update_user_id,
+				create_date,
+				modify_date,
+				transaction_id
+		)values(
+				#{salesOrderId},
+				#{salesOrderNumber},
+				#{firstOrgId},
+				#{secondOrgId},
+				#{thirdOrgId},
+				#{storeId},
+				#{salesOrderAmount},
+				#{paymentWay},
+				#{salesOrderSource},
+				#{salesOrderStatus},
+				#{returnFlg},
+				#{customerId},
+				#{activityId},
+				#{couponId},
+				#{activityPicture},
+				#{paymentQrCode},
+				#{cancelReason},
+				#{salesOrderVersion},
+				#{delFlg},
+				#{createUserId},
+				#{updateUserId},
+				#{createDate},
+				#{modifyDate},
+				#{transactionId}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.SalesOrderDomain">
+		update t_sales_order
+			<set>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "salesOrderNumber != null ">
+					sales_order_number = #{salesOrderNumber},
+				</if>
+				<if test = "firstOrgId != null ">
+					first_org_id = #{firstOrgId},
+				</if>
+				<if test = "secondOrgId != null ">
+					second_org_id = #{secondOrgId},
+				</if>
+				<if test = "thirdOrgId != null ">
+					third_org_id = #{thirdOrgId},
+				</if>
+				<if test = "storeId != null ">
+					store_id = #{storeId},
+				</if>
+				<if test = "salesOrderAmount != null ">
+					sales_order_amount = #{salesOrderAmount},
+				</if>
+				<if test = "paymentWay != null ">
+					payment_way = #{paymentWay},
+				</if>
+				<if test = "salesOrderSource != null ">
+					sales_order_source = #{salesOrderSource},
+				</if>
+				<if test = "salesOrderStatus != null ">
+					sales_order_status = #{salesOrderStatus},
+				</if>
+				<if test = "returnFlg != null ">
+					return_flg = #{returnFlg},
+				</if>
+				<if test = "customerId != null ">
+					customer_id = #{customerId},
+				</if>
+				<if test = "activityId != null ">
+					activity_id = #{activityId},
+				</if>
+				<if test = "couponId != null ">
+					coupon_id = #{couponId},
+				</if>
+				<if test = "activityPicture != null ">
+					activity_picture = #{activityPicture},
+				</if>
+				<if test = "paymentQrCode != null ">
+					payment_qr_code = #{paymentQrCode},
+				</if>
+				<if test = "cancelReason != null ">
+					cancel_reason = #{cancelReason},
+				</if>
+				<if test = "salesOrderVersion != null ">
+					sales_order_version = #{salesOrderVersion}+1,
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate},
+				</if>
+				<if test="transactionId != null">
+					transaction_id = #{transactionId}
+				</if>
+			</set>
+		where sales_order_id= #{salesOrderId} AND sales_order_version = #{salesOrderVersion}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_sales_order
+		<if test = "salesOrderId != null ">
+			where sales_order_id= #{id}
+		</if>
+		<if test = "salesOrderId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<!-- 根据订单状态/起止时间/订单状态/门店id的集合/活动id的集合/,查询订单信息 -->
+	<select id="queryByStoreIds" resultMap="salesOrderDomain">
+		<include refid="select_all"></include>
+		where 1=1
+		<if test = "salesOrderNumber != null and salesOrderNumber != ''">
+			<![CDATA[ and sales_order_number  = #{salesOrderNumber} ]]>
+		</if>
+		<if test = "customerId != null and customerId != ''">
+			<![CDATA[ and customer_id  = #{customerId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "orderStatusList != null and orderStatusList.size() > 0 ">
+			and sales_order_status IN
+			<foreach item="salesOrderStatus" index="index" collection="orderStatusList" open="(" separator="," close=")"> 
+				#{salesOrderStatus}
+			</foreach>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		<if test = "activityIds != null and activityIds.size() > 0 ">
+			and activity_id IN
+			<foreach item="activityId" index="index" collection="activityIds" open="(" separator="," close=")"> 
+				#{activityId}
+			</foreach>
+		</if>
+		<if test = "customerId != null and customerId != ''">
+			<![CDATA[ and customer_id  = #{customerId} ]]>
+		</if>
+		ORDER BY sales_order_id DESC
+	</select>
+	
+	<!-- 根据订单状态/起止时间/订单状态/门店id的集合/活动id的集合/,查询活动订单信息 -->
+	<select id="queryActivityOrder" resultMap="salesOrderDomain">
+		<include refid="select_all"></include>
+		where activity_id != ''
+		<if test = "salesOrderNumber != null and salesOrderNumber != ''">
+			<![CDATA[ and sales_order_number  = #{salesOrderNumber} ]]>
+		</if>
+		<if test = "customerId != null and customerId != ''">
+			<![CDATA[ and customer_id  = #{customerId} ]]>
+		</if>
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "orderStatusList != null and orderStatusList.size() > 0 ">
+			and sales_order_status IN
+			<foreach item="salesOrderStatus" index="index" collection="orderStatusList" open="(" separator="," close=")"> 
+				#{salesOrderStatus}
+			</foreach>
+		</if>
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		<if test = "activityIds != null and activityIds.size() > 0 ">
+			and activity_id IN
+			<foreach item="activityId" index="index" collection="activityIds" open="(" separator="," close=")"> 
+				#{activityId}
+			</foreach>
+		</if>
+		ORDER BY sales_order_id DESC
+	</select>
+	
+	<select id="getMaxSalesOrderNumber" resultType="java.lang.String">
+		select MAX(RIGHT(sales_order_number,5)) from t_sales_order
+		where create_date like CONCAT(#{nowDate}, '%')
+	</select>
+	
+	<select id="queryListByDate" resultMap="salesOrderDomain">
+		<include refid="select_all"></include>
+		where 1=1
+		<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
+			<![CDATA[ and modify_date BETWEEN #{startDate} and #{endDate} ]]>
+		</if>
+		<if test = "orderStatusList != null and orderStatusList.size() > 0 ">
+			and sales_order_status IN
+			<foreach item="salesOrderStatus" index="index" collection="orderStatusList" open="(" separator="," close=")"> 
+				#{salesOrderStatus}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 根据门店ids/起止时间/订单状态,查询某门店已取消订单数量 -->
+	<select id="queryCancelOrder" resultType="java.util.HashMap">
+		select 
+			COUNT(1) 'notBuyAmount',
+			store_id 'storeId'
+		from t_sales_order 
+		where 1=1
+		<if test = "storeIds != null and storeIds.size() > 0 ">
+			and store_id IN
+			<foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")"> 
+				#{storeId}
+			</foreach>
+		</if>
+		<if test = "orgIds != null and orgIds.size() > 0 ">
+			and third_org_id IN
+			<foreach item="orgId" index="index" collection="orgIds" open="(" separator="," close=")"> 
+				#{orgId}
+			</foreach>
+		</if>
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "orderStatusList != null and orderStatusList.size() > 0 ">
+			and sales_order_status IN
+			<foreach item="salesOrderStatus" index="index" collection="orderStatusList" open="(" separator="," close=")"> 
+				#{salesOrderStatus}
+			</foreach>
+		</if>
+		GROUP BY store_id
+	</select>
+	
+	<!-- 根据门店id/起止时间/订单状态,查询订单信息 -->
+	<select id="queryCustomerIdSet" resultType="java.util.HashMap">
+		select 
+			COUNT(1) 'amount',
+			customer_id 'name'
+		from t_sales_order 
+		where customer_id is not null and customer_id != '' 
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeId != null and storeId != ''">
+			and store_id = #{storeId}
+		</if>
+		<if test = "salesOrderStatus != null and salesOrderStatus != ''">
+			and sales_order_status = #{salesOrderStatus}
+		</if>
+		GROUP BY customer_id
+	</select>
+	<!-- 根据门店id/起止时间/订单状态,查询已取消订单数量 -->
+	<select id="queryCancelCause" resultType="java.util.HashMap">
+		select 
+			COUNT(1) 'amount',
+			cancel_reason 'name'
+		from t_sales_order 
+		where 1=1
+		<if test = "startDate != null and endDate != null and startDate != '' and endDate != ''">
+			<![CDATA[ and TO_DAYS(create_date) BETWEEN TO_DAYS(#{startDate}) and TO_DAYS(#{endDate}) ]]>
+		</if>
+		<if test = "storeId != null and storeId != ''">
+			and store_id = #{storeId}
+		</if>
+		<if test = "salesOrderStatus != null and salesOrderStatus != ''">
+			and sales_order_status = #{salesOrderStatus}
+		</if>
+		GROUP BY cancel_reason
+	</select>
+	
+	
+	<select id="statisticsOrderWithCustomer" resultType="com.camelot.order.domain.OrderCustomerDomain">
+		select  COUNT(sales_order_id) As numberTotal,
+				SUM(sales_order_amount) AS priceTotal , 
+				customer_id As customerId from t_sales_order 
+				where
+				1=1
+				<if test="customerId != null">
+				and customer_id = #{customerId}
+				</if> 
+				<if test="salesOrderStatus != null">
+					and sales_order_status = #{salesOrderStatus}
+				</if>
+				<if test="storeIdList != null and storeIdList.size()>0">
+					AND store_id in
+					<foreach collection="storeIdList" index="index" item="item" open="(" separator="," close=")">
+               			#{item}       
+       				</foreach> 
+				</if>
+	</select>
+	
+	<select id="queryOrderByStoreIds" resultMap="salesOrderDomain" >
+		<include refid="select_all"/>
+		where
+		1=1
+		<if test="storeIdList != null and storeIdList.size()>0">
+			AND store_id in
+			<foreach collection="storeIdList" index="index" item="item" open="(" separator="," close=")">
+               	#{item}       
+       		</foreach> 
+		</if>
+		GROUP BY customer_id
+	</select>
+	
+	<!-- 今日销售额和订单数 -->
+	<select id="toDayAmount" resultType="java.util.HashMap">
+		select 
+			SUM(sales_order_amount) 'salesAmountTotal',
+			COUNT(1) 'salesOrderTotal'
+		from t_sales_order 
+		where to_days(create_date) = to_days(now())
+		<if test = "storeId != null and storeId != ''">
+			and store_id = #{storeId}
+		</if>
+		<if test = "userId != null and userId != ''">
+			and create_user_id = #{userId}
+		</if>
+		<if test="salesOrderStatusSet != null and salesOrderStatusSet.size()>0">
+			AND sales_order_status in
+			<foreach collection="salesOrderStatusSet" index="index" item="salesOrderStatus" open="(" separator="," close=")">
+               	#{salesOrderStatus}       
+       		</foreach> 
+		</if>
+	</select>
+
+</mapper>
+	

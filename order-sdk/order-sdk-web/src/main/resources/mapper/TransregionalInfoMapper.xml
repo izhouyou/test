@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.TransregionalInfoDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="transregionalInfoDomain" type="com.camelot.order.domain.TransregionalInfoDomain">
+			<result property="id" column="id" />
+			<result property="goodsNumber" column="goods_number" />
+			<result property="goodsName" column="goods_name" />
+			<result property="goodsSn" column="goods_sn" />
+			<result property="goodsFrameNumber" column="goods_frame_number" />
+			<result property="activationFlag" column="activation_flag" />
+			<result property="cityThird" column="city_third" />
+			<result property="cityFifteen" column="city_fifteen" />
+			<result property="salesOrderNumber" column="sales_order_number" />
+			<result property="operationUserId" column="operation_user_id" />
+			<result property="operationUserName" column="operation_user_name" />
+			<result property="submitTime" column="submit_time" />
+			<result property="storeId" column="store_id" />
+			<result property="storeNumber" column="store_number" />
+			<result property="storeName" column="store_name" />
+			<result property="spartnerId" column="spartner_id" />
+			<result property="spartnerNumber" column="spartner_number" />
+			<result property="spartnerName" column="spartner_name" />
+			<result property="cpartnerId" column="cpartner_id" />
+			<result property="cpartnerNumber" column="cpartner_number" />
+			<result property="cpartnerName" column="cpartner_name" />
+			<result property="problemType" column="problem_type" />
+			<result property="transactionId" column="transaction_id" />
+			<result property="version" column="version" />
+			<result property="delFlg" column="del_flg" />
+			<result property="createUserId" column="create_user_id" />
+			<result property="createUserName" column="create_user_name" />
+			<result property="updateUserId" column="update_user_id" />
+			<result property="updateUserName" column="update_user_name" />
+			<result property="createDate" column="create_date" />
+			<result property="modifyDate" column="modify_date" />
+			<result property="goodsId" column="goods_id" />
+			<result property="firstOrgId" column="first_org_id" />
+			<result property="firstOrgNumber" column="first_org_number" />
+			<result property="firstOrgName" column="first_org_name" />
+			<result property="secondOrgId" column="second_org_id" />
+			<result property="secondOrgNumber" column="second_org_number" />
+			<result property="secondOrgName" column="second_org_name" />
+			<result property="thirdOrgId" column="third_org_id" />
+			<result property="thirdOrgNumber" column="third_org_number" />
+			<result property="thirdOrgName" column="third_org_name" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_transregional_info
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 id, 
+			 goods_number, 
+			 goods_name, 
+			 goods_sn, 
+			 goods_frame_number, 
+			 activation_flag, 
+			 city_third, 
+			 city_fifteen, 
+			 sales_order_number, 
+			 operation_user_id, 
+			 operation_user_name, 
+			 submit_time, 
+			 store_id, 
+			 store_number, 
+			 store_name, 
+			 spartner_id, 
+			 spartner_number, 
+			 spartner_name, 
+			 cpartner_id, 
+			 cpartner_number, 
+			 cpartner_name, 
+			 problem_type, 
+			 transaction_id, 
+			 version, 
+			 del_flg, 
+			 create_user_id, 
+			 create_user_name, 
+			 update_user_id, 
+			 update_user_name, 
+			 create_date, 
+			 modify_date, 
+			 goods_id, 
+			 first_org_id, 
+			 first_org_number, 
+			 first_org_name, 
+			 second_org_id, 
+			 second_org_number, 
+			 second_org_name, 
+			 third_org_id, 
+			 third_org_number, 
+			 third_org_name 
+			FROM t_transregional_info
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "id != null ">
+		<![CDATA[ and id  = #{id} ]]>
+	</if>
+		<if test = "goodsNumber != null and goodsNumber != '' ">
+		<![CDATA[ and goods_number  = #{goodsNumber} ]]>
+	</if>
+		<if test = "goodsName != null and goodsName != '' ">
+		<![CDATA[ and goods_name  = #{goodsName} ]]>
+	</if>
+		<if test = "goodsSn != null and goodsSn != '' ">
+		<![CDATA[ and goods_sn like CONCAT('%', #{goodsSn}, '%') ]]>
+	</if>
+		<if test = "goodsFrameNumber != null and goodsFrameNumber != '' ">
+		<![CDATA[ and goods_frame_number  = #{goodsFrameNumber} ]]>
+	</if>
+		<if test = "activationFlag != null ">
+		<![CDATA[ and activation_flag  = #{activationFlag} ]]>
+	</if>
+		<if test = "cityThird != null and cityThird != '' ">
+		<![CDATA[ and city_third  = #{cityThird} ]]>
+	</if>
+		<if test = "cityFifteen != null and cityFifteen != '' ">
+		<![CDATA[ and city_fifteen  = #{cityFifteen} ]]>
+	</if>
+		<if test = "salesOrderNumber != null and salesOrderNumber != '' ">
+		<![CDATA[ and sales_order_number like CONCAT('%', #{salesOrderNumber}, '%') ]]>
+	</if>
+		<if test = "operationUserId != null ">
+		<![CDATA[ and operation_user_id  = #{operationUserId} ]]>
+	</if>
+		<if test = "operationUserName != null and operationUserName != '' ">
+		<![CDATA[ and operation_user_name  = #{operationUserName} ]]>
+	</if>
+		<if test = "submitTime != null ">
+		<![CDATA[ and submit_time  = #{submitTime} ]]>
+	</if>
+		<if test = "storeId != null ">
+		<![CDATA[ and store_id  = #{storeId} ]]>
+	</if>
+		<if test = "storeNumber != null and storeNumber != '' ">
+		<![CDATA[ and store_number  = #{storeNumber} ]]>
+	</if>
+		<if test = "storeName != null and storeName != '' ">
+		<![CDATA[ and store_name  = #{storeName} ]]>
+	</if>
+		<if test = "spartnerId != null ">
+		<![CDATA[ and spartner_id  = #{spartnerId} ]]>
+	</if>
+		<if test = "spartnerNumber != null and spartnerNumber != '' ">
+		<![CDATA[ and spartner_number  = #{spartnerNumber} ]]>
+	</if>
+		<if test = "spartnerName != null and spartnerName != '' ">
+		<![CDATA[ and spartner_name  = #{spartnerName} ]]>
+	</if>
+		<if test = "cpartnerId != null ">
+		<![CDATA[ and cpartner_id  = #{cpartnerId} ]]>
+	</if>
+		<if test = "cpartnerNumber != null and cpartnerNumber != '' ">
+		<![CDATA[ and cpartner_number  = #{cpartnerNumber} ]]>
+	</if>
+		<if test = "cpartnerName != null and cpartnerName != '' ">
+		<![CDATA[ and cpartner_name  = #{cpartnerName} ]]>
+	</if>
+		<if test = "problemType != null ">
+		<![CDATA[ and problem_type  = #{problemType} ]]>
+	</if>
+		<if test = "transactionId != null ">
+		<![CDATA[ and transaction_id  = #{transactionId} ]]>
+	</if>
+		<if test = "version != null ">
+		<![CDATA[ and version  = #{version} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+		<if test = "createUserId != null ">
+		<![CDATA[ and create_user_id  = #{createUserId} ]]>
+	</if>
+		<if test = "createUserName != null and createUserName != '' ">
+		<![CDATA[ and create_user_name  = #{createUserName} ]]>
+	</if>
+		<if test = "updateUserId != null ">
+		<![CDATA[ and update_user_id  = #{updateUserId} ]]>
+	</if>
+		<if test = "updateUserName != null and updateUserName != '' ">
+		<![CDATA[ and update_user_name  = #{updateUserName} ]]>
+	</if>
+		<if test = "createDate != null ">
+		<![CDATA[ and create_date  = #{createDate} ]]>
+	</if>
+		<if test = "modifyDate != null ">
+		<![CDATA[ and modify_date  = #{modifyDate} ]]>
+	</if>
+		<if test = "goodsId != null ">
+		<![CDATA[ and goods_id  = #{goodsId} ]]>
+	</if>
+		<if test = "firstOrgId != null ">
+		<![CDATA[ and first_org_id  = #{firstOrgId} ]]>
+	</if>
+		<if test = "firstOrgNumber != null and firstOrgNumber != '' ">
+		<![CDATA[ and first_org_number  = #{firstOrgNumber} ]]>
+	</if>
+		<if test = "firstOrgName != null and firstOrgName != '' ">
+		<![CDATA[ and first_org_name  = #{firstOrgName} ]]>
+	</if>
+		<if test = "secondOrgId != null ">
+		<![CDATA[ and second_org_id  = #{secondOrgId} ]]>
+	</if>
+		<if test = "secondOrgNumber != null and secondOrgNumber != '' ">
+		<![CDATA[ and second_org_number  = #{secondOrgNumber} ]]>
+	</if>
+		<if test = "secondOrgName != null and secondOrgName != '' ">
+		<![CDATA[ and second_org_name  = #{secondOrgName} ]]>
+	</if>
+		<if test = "thirdOrgId != null ">
+		<![CDATA[ and third_org_id  = #{thirdOrgId} ]]>
+	</if>
+		<if test = "thirdOrgNumber != null and thirdOrgNumber != '' ">
+		<![CDATA[ and third_org_number  = #{thirdOrgNumber} ]]>
+	</if>
+		<if test = "thirdOrgName != null and thirdOrgName != '' ">
+		<![CDATA[ and third_org_name  = #{thirdOrgName} ]]>
+	</if>
+	   <if test="searchStore != null and searchStore != '' ">
+        <![CDATA[ and (store_number like CONCAT('%', #{searchStore}, '%') or store_name like CONCAT('%', #{searchStore}, '%')) ]]>
+    </if>
+	   <if test="startCreateDate != null ">
+        <![CDATA[ AND TO_DAYS(submit_time) >= TO_DAYS(#{startCreateDate}) ]]>
+    </if>
+        <if test="endCreateDate != null ">
+        <![CDATA[ AND TO_DAYS(submit_time) <= TO_DAYS(#{endCreateDate}) ]]>
+    </if>
+	   <if test = "orgList != null and orgList.size() > 0 ">
+       and third_org_id IN
+       <foreach item="item" index="index" collection="orgList" open="(" separator="," close=")">
+           #{item}
+       </foreach>
+   </if>
+       <if test = "storeList != null and storeList.size() > 0 ">
+       and store_id IN
+       <foreach item="item" index="index" collection="storeList" open="(" separator="," close=")">
+           #{item}
+       </foreach>
+   </if>
+	</sql>
+
+	<select id="queryList" resultMap="transregionalInfoDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+		ORDER BY id
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="transregionalInfoDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="transregionalInfoDomain" >
+		select * from t_transregional_info
+		where id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.TransregionalInfoDomain">
+		insert into t_transregional_info(
+				id,
+				goods_number,
+				goods_name,
+				goods_sn,
+				goods_frame_number,
+				activation_flag,
+				city_third,
+				city_fifteen,
+				sales_order_number,
+				operation_user_id,
+				operation_user_name,
+				submit_time,
+				store_id,
+				store_number,
+				store_name,
+				spartner_id,
+				spartner_number,
+				spartner_name,
+				cpartner_id,
+				cpartner_number,
+				cpartner_name,
+				problem_type,
+				transaction_id,
+				version,
+				del_flg,
+				create_user_id,
+				create_user_name,
+				update_user_id,
+				update_user_name,
+				create_date,
+				modify_date,
+				goods_id,
+				first_org_id,
+				first_org_number,
+				first_org_name,
+				second_org_id,
+				second_org_number,
+				second_org_name,
+				third_org_id,
+				third_org_number,
+				third_org_name
+		)values(
+				#{id},
+				#{goodsNumber},
+				#{goodsName},
+				#{goodsSn},
+				#{goodsFrameNumber},
+				#{activationFlag},
+				#{cityThird},
+				#{cityFifteen},
+				#{salesOrderNumber},
+				#{operationUserId},
+				#{operationUserName},
+				#{submitTime},
+				#{storeId},
+				#{storeNumber},
+				#{storeName},
+				#{spartnerId},
+				#{spartnerNumber},
+				#{spartnerName},
+				#{cpartnerId},
+				#{cpartnerNumber},
+				#{cpartnerName},
+				#{problemType},
+				#{transactionId},
+				#{version},
+				#{delFlg},
+				#{createUserId},
+				#{createUserName},
+				#{updateUserId},
+				#{updateUserName},
+				#{createDate},
+				#{modifyDate},
+				#{goodsId},
+				#{firstOrgId},
+				#{firstOrgNumber},
+				#{firstOrgName},
+				#{secondOrgId},
+				#{secondOrgNumber},
+				#{secondOrgName},
+				#{thirdOrgId},
+				#{thirdOrgNumber},
+				#{thirdOrgName}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.TransregionalInfoDomain">
+		update t_transregional_info
+			<set>
+				<if test = "id != null ">
+					id = #{id},
+				</if>
+				<if test = "goodsNumber != null ">
+					goods_number = #{goodsNumber},
+				</if>
+				<if test = "goodsName != null ">
+					goods_name = #{goodsName},
+				</if>
+				<if test = "goodsSn != null ">
+					goods_sn = #{goodsSn},
+				</if>
+				<if test = "goodsFrameNumber != null ">
+					goods_frame_number = #{goodsFrameNumber},
+				</if>
+				<if test = "activationFlag != null ">
+					activation_flag = #{activationFlag},
+				</if>
+				<if test = "cityThird != null ">
+					city_third = #{cityThird},
+				</if>
+				<if test = "cityFifteen != null ">
+					city_fifteen = #{cityFifteen},
+				</if>
+				<if test = "salesOrderNumber != null ">
+					sales_order_number = #{salesOrderNumber},
+				</if>
+				<if test = "operationUserId != null ">
+					operation_user_id = #{operationUserId},
+				</if>
+				<if test = "operationUserName != null ">
+					operation_user_name = #{operationUserName},
+				</if>
+				<if test = "submitTime != null ">
+					submit_time = #{submitTime},
+				</if>
+				<if test = "storeId != null ">
+					store_id = #{storeId},
+				</if>
+				<if test = "storeNumber != null ">
+					store_number = #{storeNumber},
+				</if>
+				<if test = "storeName != null ">
+					store_name = #{storeName},
+				</if>
+				<if test = "spartnerId != null ">
+					spartner_id = #{spartnerId},
+				</if>
+				<if test = "spartnerNumber != null ">
+					spartner_number = #{spartnerNumber},
+				</if>
+				<if test = "spartnerName != null ">
+					spartner_name = #{spartnerName},
+				</if>
+				<if test = "cpartnerId != null ">
+					cpartner_id = #{cpartnerId},
+				</if>
+				<if test = "cpartnerNumber != null ">
+					cpartner_number = #{cpartnerNumber},
+				</if>
+				<if test = "cpartnerName != null ">
+					cpartner_name = #{cpartnerName},
+				</if>
+				<if test = "problemType != null ">
+					problem_type = #{problemType},
+				</if>
+				<if test = "transactionId != null ">
+					transaction_id = #{transactionId},
+				</if>
+				<if test = "version != null ">
+					version = #{version},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg},
+				</if>
+				<if test = "createUserId != null ">
+					create_user_id = #{createUserId},
+				</if>
+				<if test = "createUserName != null ">
+					create_user_name = #{createUserName},
+				</if>
+				<if test = "updateUserId != null ">
+					update_user_id = #{updateUserId},
+				</if>
+				<if test = "updateUserName != null ">
+					update_user_name = #{updateUserName},
+				</if>
+				<if test = "createDate != null ">
+					create_date = #{createDate},
+				</if>
+				<if test = "modifyDate != null ">
+					modify_date = #{modifyDate},
+				</if>
+				<if test = "goodsId != null ">
+					goods_id = #{goodsId},
+				</if>
+				<if test = "firstOrgId != null ">
+					first_org_id = #{firstOrgId},
+				</if>
+				<if test = "firstOrgNumber != null ">
+					first_org_number = #{firstOrgNumber},
+				</if>
+				<if test = "firstOrgName != null ">
+					first_org_name = #{firstOrgName},
+				</if>
+				<if test = "secondOrgId != null ">
+					second_org_id = #{secondOrgId},
+				</if>
+				<if test = "secondOrgNumber != null ">
+					second_org_number = #{secondOrgNumber},
+				</if>
+				<if test = "secondOrgName != null ">
+					second_org_name = #{secondOrgName},
+				</if>
+				<if test = "thirdOrgId != null ">
+					third_org_id = #{thirdOrgId},
+				</if>
+				<if test = "thirdOrgNumber != null ">
+					third_org_number = #{thirdOrgNumber},
+				</if>
+				<if test = "thirdOrgName != null ">
+					third_org_name = #{thirdOrgName}
+				</if>
+			</set>
+		where id= #{id}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_transregional_info
+		<if test = "id != null ">
+			where id= #{id}
+		</if>
+		<if test = "id == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+</mapper>

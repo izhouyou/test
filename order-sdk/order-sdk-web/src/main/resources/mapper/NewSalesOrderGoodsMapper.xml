@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.camelot.order.dao.NewSalesOrderGoodsDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="newSalesOrderGoodsDomain" type="com.camelot.order.domain.NewSalesOrderGoodsDomain">
+			<result property="salesOrderGoodsId" column="sales_order_goods_id" />
+			<result property="salesOrderId" column="sales_order_id" />
+			<result property="goodsId" column="goods_id" />
+			<result property="goodsNumber" column="goods_number" />
+			<result property="goodsName" column="goods_name" />
+			<result property="firstCategoryId" column="first_category_id" />
+			<result property="firstCategoryNumber" column="first_category_number" />
+			<result property="firstCategoryName" column="first_category_name" />
+			<result property="secondCategoryId" column="second_category_id" />
+			<result property="secondCategoryNumber" column="second_category_number" />
+			<result property="secondCategoryName" column="second_category_name" />
+			<result property="thirdCategoryId" column="third_category_id" />
+			<result property="thirdCategoryNumber" column="third_category_number" />
+			<result property="thirdCategoryName" column="third_category_name" />
+			<result property="goodsBrandId" column="goods_brand_id" />
+			<result property="goodsBrandNumber" column="goods_brand_number" />
+			<result property="goodsBrandName" column="goods_brand_name" />
+			<result property="goodsAttributeId" column="goods_attribute_id" />
+			<result property="goodsAttributeNumber" column="goods_attribute_number" />
+			<result property="goodsAttributeName" column="goods_attribute_name" />
+			<result property="goodsBarcode" column="goods_barcode" />
+			<result property="goodsSn" column="goods_sn" />
+			<result property="goodsFrameNumber" column="goods_frame_number" />
+			<result property="orderAmount" column="order_amount" />
+			<result property="returnTotalAmount" column="return_total_amount" />
+			<result property="retailPrice" column="retail_price" />
+			<result property="actualPrice" column="actual_price" />
+			<result property="delFlg" column="del_flg" />
+	</resultMap>
+	
+
+	<!-- 查询数量公共sql -->
+	<sql id="total_size">
+		select count(1) from t_new_sales_order_goods
+	</sql>
+	
+	<!-- 查询字段公共sql -->
+	<sql id="select_all">
+		<![CDATA[
+		SELECT
+			 sales_order_goods_id, 
+			 sales_order_id, 
+			 goods_id, 
+			 goods_number, 
+			 goods_name, 
+			 first_category_id, 
+			 first_category_number, 
+			 first_category_name, 
+			 second_category_id, 
+			 second_category_number, 
+			 second_category_name, 
+			 third_category_id, 
+			 third_category_number, 
+			 third_category_name, 
+			 goods_brand_id, 
+			 goods_brand_number, 
+			 goods_brand_name, 
+			 goods_attribute_id, 
+			 goods_attribute_number, 
+			 goods_attribute_name, 
+			 goods_barcode, 
+			 goods_sn, 
+			 goods_frame_number, 
+			 order_amount, 
+			 return_total_amount, 
+			 retail_price, 
+			 actual_price, 
+			 del_flg 
+			FROM t_new_sales_order_goods
+		]]>
+	</sql>
+
+	<sql id="where">
+		where 1=1
+		<if test = "salesOrderGoodsId != null ">
+		<![CDATA[ and sales_order_goods_id  = #{salesOrderGoodsId} ]]>
+	</if>
+		<if test = "salesOrderId != null ">
+		<![CDATA[ and sales_order_id  = #{salesOrderId} ]]>
+	</if>
+		<if test = "goodsId != null ">
+		<![CDATA[ and goods_id  = #{goodsId} ]]>
+	</if>
+		<if test = "goodsNumber != null ">
+		<![CDATA[ and goods_number  = #{goodsNumber} ]]>
+	</if>
+		<if test = "goodsName != null ">
+		<![CDATA[ and goods_name  = #{goodsName} ]]>
+	</if>
+		<if test = "firstCategoryId != null ">
+		<![CDATA[ and first_category_id  = #{firstCategoryId} ]]>
+	</if>
+		<if test = "firstCategoryNumber != null ">
+		<![CDATA[ and first_category_number  = #{firstCategoryNumber} ]]>
+	</if>
+		<if test = "firstCategoryName != null ">
+		<![CDATA[ and first_category_name  = #{firstCategoryName} ]]>
+	</if>
+		<if test = "secondCategoryId != null ">
+		<![CDATA[ and second_category_id  = #{secondCategoryId} ]]>
+	</if>
+		<if test = "secondCategoryNumber != null ">
+		<![CDATA[ and second_category_number  = #{secondCategoryNumber} ]]>
+	</if>
+		<if test = "secondCategoryName != null ">
+		<![CDATA[ and second_category_name  = #{secondCategoryName} ]]>
+	</if>
+		<if test = "thirdCategoryId != null ">
+		<![CDATA[ and third_category_id  = #{thirdCategoryId} ]]>
+	</if>
+		<if test = "thirdCategoryNumber != null ">
+		<![CDATA[ and third_category_number  = #{thirdCategoryNumber} ]]>
+	</if>
+		<if test = "thirdCategoryName != null ">
+		<![CDATA[ and third_category_name  = #{thirdCategoryName} ]]>
+	</if>
+		<if test = "goodsBrandId != null ">
+		<![CDATA[ and goods_brand_id  = #{goodsBrandId} ]]>
+	</if>
+		<if test = "goodsBrandNumber != null ">
+		<![CDATA[ and goods_brand_number  = #{goodsBrandNumber} ]]>
+	</if>
+		<if test = "goodsBrandName != null ">
+		<![CDATA[ and goods_brand_name  = #{goodsBrandName} ]]>
+	</if>
+		<if test = "goodsAttributeId != null ">
+		<![CDATA[ and goods_attribute_id  = #{goodsAttributeId} ]]>
+	</if>
+		<if test = "goodsAttributeNumber != null ">
+		<![CDATA[ and goods_attribute_number  = #{goodsAttributeNumber} ]]>
+	</if>
+		<if test = "goodsAttributeName != null ">
+		<![CDATA[ and goods_attribute_name  = #{goodsAttributeName} ]]>
+	</if>
+		<if test = "goodsBarcode != null and goodsBarcode != ''">
+		<![CDATA[ and goods_barcode  = #{goodsBarcode} ]]>
+	</if>
+		<if test = "goodsSn != null and goodsSn != ''">
+		<![CDATA[ and goods_sn  = #{goodsSn} ]]>
+	</if>
+		<if test = "goodsFrameNumber != null and goodsFrameNumber != ''">
+		<![CDATA[ and goods_frame_number  = #{goodsFrameNumber} ]]>
+	</if>
+		<if test = "orderAmount != null ">
+		<![CDATA[ and order_amount  = #{orderAmount} ]]>
+	</if>
+		<if test = "returnTotalAmount != null ">
+		<![CDATA[ and return_total_amount  = #{returnTotalAmount} ]]>
+	</if>
+		<if test = "retailPrice != null ">
+		<![CDATA[ and retail_price  = #{retailPrice} ]]>
+	</if>
+		<if test = "actualPrice != null ">
+		<![CDATA[ and actual_price  = #{actualPrice} ]]>
+	</if>
+		<if test = "delFlg != null ">
+		<![CDATA[ and del_flg  = #{delFlg} ]]>
+	</if>
+	<if test = "salesOrderIdList != null and salesOrderIdList.size() > 0 ">
+		and sales_order_id IN
+		<foreach item="item" index="index" collection="salesOrderIdList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+	</sql>
+
+	<select id="queryList" resultMap="newSalesOrderGoodsDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+		ORDER BY sales_order_goods_id DESC
+	</select>
+	
+	
+	<select id="queryCount" resultType="long">
+		<include refid="total_size"></include>
+		<include refid="where"></include>
+	</select>
+	
+	<!-- 查询单个实体 -->
+	<select id="queryDomain" resultMap="newSalesOrderGoodsDomain" >
+		<include refid="select_all"/>
+		<include refid="where" />
+	</select>
+	<select id="queryById" resultMap="newSalesOrderGoodsDomain" >
+		select * from t_new_sales_order_goods
+		where sales_order_goods_id= #{id}
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add"  parameterType="com.camelot.order.domain.NewSalesOrderGoodsDomain">
+		insert into t_new_sales_order_goods(
+				sales_order_goods_id,
+				sales_order_id,
+				goods_id,
+				goods_number,
+				goods_name,
+				first_category_id,
+				first_category_number,
+				first_category_name,
+				second_category_id,
+				second_category_number,
+				second_category_name,
+				third_category_id,
+				third_category_number,
+				third_category_name,
+				goods_brand_id,
+				goods_brand_number,
+				goods_brand_name,
+				goods_attribute_id,
+				goods_attribute_number,
+				goods_attribute_name,
+				goods_barcode,
+				goods_sn,
+				goods_frame_number,
+				order_amount,
+				return_total_amount,
+				retail_price,
+				actual_price,
+				del_flg
+		)values(
+				#{salesOrderGoodsId},
+				#{salesOrderId},
+				#{goodsId},
+				#{goodsNumber},
+				#{goodsName},
+				#{firstCategoryId},
+				#{firstCategoryNumber},
+				#{firstCategoryName},
+				#{secondCategoryId},
+				#{secondCategoryNumber},
+				#{secondCategoryName},
+				#{thirdCategoryId},
+				#{thirdCategoryNumber},
+				#{thirdCategoryName},
+				#{goodsBrandId},
+				#{goodsBrandNumber},
+				#{goodsBrandName},
+				#{goodsAttributeId},
+				#{goodsAttributeNumber},
+				#{goodsAttributeName},
+				#{goodsBarcode},
+				#{goodsSn},
+				#{goodsFrameNumber},
+				#{orderAmount},
+				#{returnTotalAmount},
+				#{retailPrice},
+				#{actualPrice},
+				#{delFlg}
+		)
+	</insert>
+	<!-- 编辑 -->
+	<update id="update" parameterType="com.camelot.order.domain.NewSalesOrderGoodsDomain">
+		update t_new_sales_order_goods
+			<set>
+				<if test = "salesOrderGoodsId != null ">
+					sales_order_goods_id = #{salesOrderGoodsId},
+				</if>
+				<if test = "salesOrderId != null ">
+					sales_order_id = #{salesOrderId},
+				</if>
+				<if test = "goodsId != null ">
+					goods_id = #{goodsId},
+				</if>
+				<if test = "goodsNumber != null ">
+					goods_number = #{goodsNumber},
+				</if>
+				<if test = "goodsName != null ">
+					goods_name = #{goodsName},
+				</if>
+				<if test = "firstCategoryId != null ">
+					first_category_id = #{firstCategoryId},
+				</if>
+				<if test = "firstCategoryNumber != null ">
+					first_category_number = #{firstCategoryNumber},
+				</if>
+				<if test = "firstCategoryName != null ">
+					first_category_name = #{firstCategoryName},
+				</if>
+				<if test = "secondCategoryId != null ">
+					second_category_id = #{secondCategoryId},
+				</if>
+				<if test = "secondCategoryNumber != null ">
+					second_category_number = #{secondCategoryNumber},
+				</if>
+				<if test = "secondCategoryName != null ">
+					second_category_name = #{secondCategoryName},
+				</if>
+				<if test = "thirdCategoryId != null ">
+					third_category_id = #{thirdCategoryId},
+				</if>
+				<if test = "thirdCategoryNumber != null ">
+					third_category_number = #{thirdCategoryNumber},
+				</if>
+				<if test = "thirdCategoryName != null ">
+					third_category_name = #{thirdCategoryName},
+				</if>
+				<if test = "goodsBrandId != null ">
+					goods_brand_id = #{goodsBrandId},
+				</if>
+				<if test = "goodsBrandNumber != null ">
+					goods_brand_number = #{goodsBrandNumber},
+				</if>
+				<if test = "goodsBrandName != null ">
+					goods_brand_name = #{goodsBrandName},
+				</if>
+				<if test = "goodsAttributeId != null ">
+					goods_attribute_id = #{goodsAttributeId},
+				</if>
+				<if test = "goodsAttributeNumber != null ">
+					goods_attribute_number = #{goodsAttributeNumber},
+				</if>
+				<if test = "goodsAttributeName != null ">
+					goods_attribute_name = #{goodsAttributeName},
+				</if>
+				<if test = "goodsBarcode != null ">
+					goods_barcode = #{goodsBarcode},
+				</if>
+				<if test = "goodsSn != null ">
+					goods_sn = #{goodsSn},
+				</if>
+				<if test = "goodsFrameNumber != null ">
+					goods_frame_number = #{goodsFrameNumber},
+				</if>
+				<if test = "orderAmount != null ">
+					order_amount = #{orderAmount},
+				</if>
+				<if test = "returnTotalAmount != null ">
+					return_total_amount = #{returnTotalAmount},
+				</if>
+				<if test = "retailPrice != null ">
+					retail_price = #{retailPrice},
+				</if>
+				<if test = "actualPrice != null ">
+					actual_price = #{actualPrice},
+				</if>
+				<if test = "delFlg != null ">
+					del_flg = #{delFlg}
+				</if>
+			</set>
+		where sales_order_goods_id= #{salesOrderGoodsId}
+	</update>
+	
+
+	<delete id="delete">
+		delete from t_new_sales_order_goods
+		<if test = "salesOrderGoodsId != null ">
+			where sales_order_goods_id= #{salesOrderGoodsId}
+		</if>
+		<if test = "salesOrderGoodsId == null ">
+			where 1 = 3
+		</if>
+	</delete>
+	
+	<!-- 查询基础字段公共sql -->
+    <sql id="select_base">
+        <![CDATA[
+        SELECT
+             sales_order_goods_id, 
+             sales_order_id, 
+             goods_number, 
+             goods_name, 
+             first_category_name, 
+             second_category_name, 
+             third_category_name, 
+             goods_brand_name, 
+             goods_attribute_name, 
+             goods_barcode, 
+             goods_sn, 
+             goods_frame_number, 
+             order_amount, 
+             return_total_amount, 
+             retail_price, 
+             actual_price 
+            FROM t_new_sales_order_goods
+        ]]>
+    </sql>
+	
+	<!-- 查询差异订单商品信息 -->
+    <select id="queryListDifference" resultMap="newSalesOrderGoodsDomain">
+        <include refid="select_base"></include>
+        where (retail_price-actual_price)*order_amount != 0
+        <if test = "minAmount != null and minAmount != '' ">
+            <![CDATA[ and ABS(retail_price-actual_price)*order_amount >= ABS(#{minAmount}) ]]>
+        </if>
+        <if test = "maxAmount != null and maxAmount != '' ">
+            <![CDATA[ and ABS(retail_price-actual_price)*order_amount <= ABS(#{maxAmount}) ]]>
+        </if>
+        <if test = "salesOrderIdList != null and salesOrderIdList.size() > 0 ">
+            and sales_order_id IN
+            <foreach item="salesOrderId" index="index" collection="salesOrderIdList" open="(" separator="," close=")"> 
+                #{salesOrderId}
+            </foreach>
+        </if>
+        ORDER BY sales_order_goods_id DESC
+    </select>
+    
+    <!-- 查询整车/周边销量信息 -->
+    <select id="queryCountTotal" resultType="java.util.HashMap">
+        select 
+            SUM(IF(first_category_id=#{vehicleCategoryId},order_amount,0)) 'vehicleTotal',
+            SUM(IF(first_category_id=#{merchCategoryId},order_amount,0)) 'merchTotal'
+        from t_new_sales_order_goods 
+        <include refid="where" />
+    </select>
+    <!-- 查询销售订单商品销量统计信息 -->
+    <select id="queryPageGoodsVolume" resultType="java.util.HashMap">
+        select 
+            first_category_name 'goodsFirstCategoryName',
+            goods_name 'goodsName',
+            actual_price 'actualPrice',
+            SUM(order_amount) 'amountTotal',
+            SUM(actual_price*order_amount) 'totalPrice'
+        from t_new_sales_order_goods 
+        <include refid="where" />
+       GROUP BY goods_name,actual_price
+        <choose>
+            <when test="sortFlag == 0">
+                ORDER BY actual_price
+            </when>
+            <when test="sortFlag == 2">
+                ORDER BY amountTotal
+            </when>
+            <when test="sortFlag == 3">
+                ORDER BY amountTotal DESC
+            </when>
+            <otherwise>
+                ORDER BY actual_price DESC
+            </otherwise>
+        </choose>
+    </select>
+    <!-- 查询有效订单整车分类统计信息 -->
+    <select id="queryListVehicleAmount" resultType="java.util.HashMap">
+        select 
+            second_category_name 'goodsSecondCategoryName',
+            third_category_name 'goodsThirdCategoryName',
+            goods_attribute_name 'goodsAttributeName',
+            count(DISTINCT sales_order_id) 'salesOrderAmount'
+        from t_new_sales_order_goods
+        <include refid="where" />
+        GROUP BY third_category_name,goods_attribute_name 
+    </select>
+    
+</mapper>
